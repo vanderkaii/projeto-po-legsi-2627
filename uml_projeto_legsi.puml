@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class Habitante {
+  +id: int {auto}
+  +nomeCompleto: String
+  +emailInstitucional: String
+  +/numeroMissoesRealizadas: int
+  +/numeroDescobertasRegistadas: int
+}
+
+class Cientista {
+  +areaCientificaPrincipal: String
+}
+
+class Engenheiro {
+  +especialidadeTecnica: String
+}
+
+class Explorador
+
+class Colonia {
+  +id: int {auto}
+  +nome: String
+  +planeta: String
+  +/numeroMissoesConcluidas: int
+}
+
+class GestorColonia {
+  +id: int {auto}
+  +nomeCompleto: String
+  +email: String
+  +/numeroMissoesSupervisionadas: int
+}
+
+class Administrador {
+  +id: int {auto}
+  +nomeCompleto: String
+  +email: String
+}
+
+class Missao {
+  +id: int {auto}
+  +designacao: String
+  +objetivo: String
+  +estado: EstadoMissao
+}
+
+class Descoberta {
+  +id: int {auto}
+  +tipo: String
+  +data: Date
+  +descricao: String
+}
+
+' Estado da missão: valor discreto, não uma entidade de domínio.
+enum EstadoMissao {
+  Planeada
+  EmCurso
+  Concluida
+}
+
+Habitante <|-- Cientista
+Habitante <|-- Engenheiro
+Habitante <|-- Explorador
+
+Colonia "1" -- "0..*" Habitante : acolhe
+Colonia "1" -- "0..*" Missao : organiza
+Habitante "0..*" -- "0..*" Missao : participa
+GestorColonia "1" -- "0..*" Missao : supervisiona
+Missao "1" -- "0..*" Descoberta : produz
+Habitante "1" -- "0..*" Descoberta : responsavel
+Administrador -- Colonia : gere
+Administrador -- Missao : gere
+
+@enduml

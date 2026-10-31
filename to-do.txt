@@ -1,0 +1,1 @@
+1. Fazer as validaçoes dos setters em Habitante.java
