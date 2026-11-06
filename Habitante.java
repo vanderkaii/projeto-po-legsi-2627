@@ -1,34 +1,28 @@
 public abstract class Habitante
 {
-  private int id;
+  private String idHabitante;
   private String nomeCompleto;
   private String emailInstitucional;
   private String profissao;
   private int numeroMissoesRealizadas;
   private int numeroDescobertasRegistadas;
-  private static int contadorId = 1; // variavel que serve de contador para o numero do ID.
-                                     // static significa que é uma variavel global para esta classe e todas as suas
-                                     // filhas
+  private static int contadorIdHabitante = 1; // variavel que serve de contador para o numero do ID.
+  // static significa que é uma variavel global para esta classe e todas as suas
+  // filhas
 
-  public Habitante(String nomeCompleto, String emailInstitucional, String profissao)
+  public Habitante(String nomeCompleto, String emailInstitucional)
   {
     this.nomeCompleto = nomeCompleto;
     this.emailInstitucional = emailInstitucional;
-    this.profissao = profissao;
-    this.numeroDescobertasRegistadas = 0;
-    this.numeroMissoesRealizadas = 0;
-    this.id = contadorId;
-    contadorId++;
+    setNumeroDescobertasRegistadas(0);
+    setNumeroMissoesRealizadas(0);
+    this.idHabitante = "H" + contadorIdHabitante;
+    contadorIdHabitante++;
   }
 
-  public int getId()
+  public String getIdHabitante()
   {
-    return this.id;
-  }
-
-  public void setNomeCompleto(String nomeCompleto)
-  {
-    this.nomeCompleto = nomeCompleto;
+    return this.idHabitante;
   }
 
   public String getNomeCompleto()
@@ -36,19 +30,9 @@ public abstract class Habitante
     return this.nomeCompleto;
   }
 
-  public void setEmailInstitucional(String emailInstitucional)
-  {
-    this.emailInstitucional = emailInstitucional;
-  }
-
   public String getEmailInstitucional()
   {
     return this.emailInstitucional;
-  }
-
-  public void setProfissao(String profissao)
-  {
-    this.profissao = profissao;
   }
 
   public String getProfissao()
@@ -56,25 +40,41 @@ public abstract class Habitante
     return profissao;
   }
 
-  public int getNumeroMissoesRealizadas()
-  {
-    return this.numeroMissoesRealizadas;
-  }
-
   public int getNumeroDescobertasRegistadas()
   {
     return this.numeroDescobertasRegistadas;
   }
 
-  public void setNumeroMissoesRealizadas(int numeroMissoesRealizadas)
+  public int getNumeroMissoesRealizadas()
   {
-    if (numeroMissoesRealizadas > 0)
-      this.numeroMissoesRealizadas = numeroMissoesRealizadas;
+    return this.numeroMissoesRealizadas;
+  }
+
+  public void setNomeCompleto(String nomeCompleto)
+  {
+    this.nomeCompleto = nomeCompleto;
+  }
+
+  public void setEmailInstitucional(String emailInstitucional)
+  {
+    this.emailInstitucional = emailInstitucional;
+  }
+
+  public void setProfissao(String profissao)
+  {
+    this.profissao = profissao;
   }
 
   public void setNumeroDescobertasRegistadas(int numeroDescobertasRegistadas)
   {
-    if (numeroDescobertasRegistadas > 0)
+    if (numeroDescobertasRegistadas >= 0)
       this.numeroDescobertasRegistadas = numeroDescobertasRegistadas;
   }
+
+  public void setNumeroMissoesRealizadas(int numeroMissoesRealizadas)
+  {
+    if (numeroMissoesRealizadas >= 0)
+      this.numeroMissoesRealizadas = numeroMissoesRealizadas;
+  }
+
 }
