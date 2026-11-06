@@ -21,7 +21,11 @@ class Engenheiro {
 
 class Explorador
 
-class Administrador
+class Administrador {
+  - id: int
+  - nomeCompleto: String
+  - emailInstitucional: String
+}
 
 class GestorColonia {
   - numMissoesSuperv: int
@@ -57,7 +61,6 @@ enum EstadoMissao {
 Habitante <|-- Cientista
 Habitante <|-- Engenheiro
 Habitante <|-- Explorador
-Habitante <|-- Administrador
 Habitante <|-- GestorColonia
 
 Colonia "1" -- "0..*" Habitante : acolhe
