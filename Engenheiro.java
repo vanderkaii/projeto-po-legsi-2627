@@ -2,7 +2,7 @@ public class Engenheiro extends Habitante
 {
   private String especialidadeTecnica;
 
-  public Engenheiro(String nomeCompleto, String emailInstitucional, String profissao, String especialidadeTecnica)
+  public Engenheiro(String nomeCompleto, String emailInstitucional, String especialidadeTecnica)
   {
     super(nomeCompleto, emailInstitucional);
     setProfissao("Engenheiro");

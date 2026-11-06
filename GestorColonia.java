@@ -6,7 +6,7 @@ public class GestorColonia
   private int numMissoesSuperv;
   private static int contadorIdGestor = 1;
 
-  public GestorColonia(String nomeCompleto, String email, String profissao)
+  public GestorColonia(String nomeCompleto, String email)
   {
     this.idGestor = "G" + contadorIdGestor;
     contadorIdGestor++;
