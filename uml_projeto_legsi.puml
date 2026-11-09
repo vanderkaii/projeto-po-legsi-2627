@@ -2,56 +2,58 @@
 skinparam classAttributeIconSize 0
 
 abstract class Habitante {
-  - id: int
-  - nomeCompleto: String
-  - emailInstitucional: String
-  - profissao: String
-  - numeroMissoesRealizadas: int
-  - numeroDescobertasRegistadas: int
-  - contadorId: int {static}
+  +id: int {auto}
+  +nomeCompleto: String
+  +emailInstitucional: String
+  +/numeroMissoesRealizadas: int
+  +/numeroDescobertasRegistadas: int
 }
 
 class Cientista {
-  - areaCientifica: String
+  +areaCientificaPrincipal: String
 }
 
 class Engenheiro {
-  - especialidadeTecnica: String
+  +especialidadeTecnica: String
 }
 
 class Explorador
 
-class Administrador {
-  - id: int
-  - nomeCompleto: String
-  - emailInstitucional: String
+class Colonia {
+  +id: int {auto}
+  +nome: String
+  +planeta: String
+  +/numeroMissoesConcluidas: int
 }
 
 class GestorColonia {
-  - numMissoesSuperv: int
+  +id: int {auto}
+  +nomeCompleto: String
+  +email: String
+  +/numeroMissoesSupervisionadas: int
 }
 
-class Colonia {
-  - id: int
-  - nome: String
-  - planeta: String
-  - /numeroMissoesConcluidas: int
+class Administrador {
+  +id: int {auto}
+  +nomeCompleto: String
+  +email: String
 }
 
 class Missao {
-  - idM: int
-  - designacao: String
-  - objetivo: String
-  - estado: EstadoMissao
+  +id: int {auto}
+  +designacao: String
+  +objetivo: String
+  +estado: EstadoMissao
 }
 
 class Descoberta {
-  - id: int
-  - tipo: String
-  - data: Date
-  - descricao: String
+  +id: int {auto}
+  +tipo: String
+  +data: Date
+  +descricao: String
 }
 
+' Estado da missão: valor discreto, não uma entidade de domínio.
 enum EstadoMissao {
   Planeada
   EmCurso
@@ -61,26 +63,14 @@ enum EstadoMissao {
 Habitante <|-- Cientista
 Habitante <|-- Engenheiro
 Habitante <|-- Explorador
-Habitante <|-- GestorColonia
 
 Colonia "1" -- "0..*" Habitante : acolhe
 Colonia "1" -- "0..*" Missao : organiza
 Habitante "0..*" -- "0..*" Missao : participa
 GestorColonia "1" -- "0..*" Missao : supervisiona
-Missao "1" -- "0..*" Descoberta : origina
+Missao "1" -- "0..*" Descoberta : produz
 Habitante "1" -- "0..*" Descoberta : responsavel
+Administrador -- Colonia : gere
+Administrador -- Missao : gere
 
-Administrador ..> Colonia : gere
-Administrador ..> Missao : gere
-
-note right of EstadoMissao
-  Tipo enumerado usado no atributo
-  Missao.estado; nao e uma entidade
-  nem uma associacao de dominio.
-end note
-
-note bottom of Colonia
-  A associacao Colonia-Missao e inferida
-  da organizacao das missoes pela colonia.
-end note
 @enduml
