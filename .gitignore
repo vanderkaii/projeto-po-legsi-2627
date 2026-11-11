@@ -16,7 +16,6 @@
 *.nar
 *.ear
 *.zip
-!mavenproject1.zip
 *.tar.gz
 *.rar
 
