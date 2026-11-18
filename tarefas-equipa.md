@@ -2,7 +2,7 @@
 
 Substituam “Membro 1”, “Membro 2” e “Membro 3” pelos nomes dos elementos do grupo. As tarefas estão organizadas para poderem avançar em paralelo depois de acordarem as interfaces entre classes.
 
-## Membro 1 — Habitantes e colónias
+## Margarida — Habitantes e colónias
 
 - [ ] Implementar `Habitante` como classe abstrata, com ID gerado automaticamente, nome, email institucional e profissão/tipo.
 - [ ] Implementar `Cientista`, `Engenheiro` e `Explorador`, incluindo os atributos específicos indicados no enunciado.
@@ -16,7 +16,7 @@ Substituam “Membro 1”, “Membro 2” e “Membro 3” pelos nomes dos eleme
 
 **Concluído quando:** os três tipos de habitante e as colónias podem ser criados e validados; as associações e estatísticas refletem os dados reais, sem contadores manuais inconsistentes.
 
-## Membro 2 — Gestores, missões e descobertas
+## Clara — Gestores, missões e descobertas
 
 - [ ] Implementar `GestorColonia`, com ID automático, nome, email e missões supervisionadas.
 - [ ] Implementar `Missao`, com ID automático, designação, objetivo, equipa participante, gestor responsável e estado.
@@ -30,7 +30,7 @@ Substituam “Membro 1”, “Membro 2” e “Membro 3” pelos nomes dos eleme
 
 **Concluído quando:** é possível gerir uma missão e a sua equipa, alterar o estado e registar descobertas válidas, mantendo as relações e estatísticas coerentes.
 
-## Membro 3 — Administrador, interface, autenticação e persistência
+## Cláudio — Administrador, interface, autenticação e persistência
 
 - [ ] Implementar `Administrador`, com ID automático, nome e email.
 - [ ] Criar a classe de coordenação do sistema para registar, consultar, editar e remover colónias, habitantes, gestores e missões.
@@ -48,7 +48,7 @@ Substituam “Membro 1”, “Membro 2” e “Membro 3” pelos nomes dos eleme
 - [ ] **Antes de programar em paralelo:** acordar os pacotes de negócio e interface, nomes dos métodos, formato/geração dos IDs e regras de validação e duplicação.
 - [ ] Acordar como representar a profissão do habitante e as credenciais de autenticação; o enunciado não define esses pormenores.
 - [ ] Definir contratos entre classes: construtores, getters, operações de associação e exceções/erros esperados.
-- [ ] Integrar primeiro o registo de colónias e habitantes; depois missões e descobertas;  b por fim, autenticação, menus e persistência.
+- [ ] Integrar primeiro o registo de colónias e habitantes; depois missões e descobertas; b por fim, autenticação, menus e persistência.
 - [ ] Testar um percurso completo: criar colónia, registar habitantes e gestor, criar missão, gerir participantes, concluir missão e registar descoberta.
 - [ ] Testar dados inválidos, duplicados, remoções e recuperação do estado após reiniciar.
 - [ ] Rever o UML e confirmar que os pacotes separam a interface do negócio.
