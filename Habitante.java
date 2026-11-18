@@ -1,80 +1,85 @@
-public abstract class Habitante
-{
-  private int id;
-  private String nomeCompleto;
-  private String emailInstitucional;
-  private String profissao;
-  private int numeroMissoesRealizadas;
-  private int numeroDescobertasRegistadas;
-  private static int contadorId = 1; // variavel que serve de contador para o numero do ID.
-                                     // static significa que é uma variavel global para esta classe e todas as suas
-                                     // filhas
+public abstract class Habitante {
 
-  public Habitante(String nomeCompleto, String emailInstitucional, String profissao)
-  {
-    this.nomeCompleto = nomeCompleto;
-    this.emailInstitucional = emailInstitucional;
-    this.profissao = profissao;
-    this.numeroDescobertasRegistadas = 0;
-    this.numeroMissoesRealizadas = 0;
-    this.id = contadorId;
-    contadorId++;
-  }
+    private int id;
+    private String nomeCompleto;
+    private String emailInstitucional;
+    private String profissao;
+    private String password; // Necessário para a funcionalidade de autenticação. Por razões de segurança, as passwords não devem ser armazenadas em texto simples.
+    private Colonia colonia;
 
-  public int getId()
-  {
-    return this.id;
-  }
+    private static int contadorId = 1; // Variável que serve de contador para o número do ID.
+                                       // static significa que é uma variável artilhada
+                                       // por esta classe e todas as suas instâncias.
 
-  public void setNomeCompleto(String nomeCompleto)
-  {
-    this.nomeCompleto = nomeCompleto;
-  }
+    public Habitante(String nomeCompleto, String emailInstitucional, String profissao, String password) {
+        this.nomeCompleto = nomeCompleto;
+        this.emailInstitucional = emailInstitucional;
+        this.profissao = profissao;
+        this.password = password;
+        this.id = contadorId++;
+    }
 
-  public String getNomeCompleto()
-  {
-    return this.nomeCompleto;
-  }
+    public int getId() {
+        return this.id;
+    }
 
-  public void setEmailInstitucional(String emailInstitucional)
-  {
-    this.emailInstitucional = emailInstitucional;
-  }
+    public void setNomeCompleto(String nomeCompleto) {
+        if (nomeCompleto == null || nomeCompleto.isEmpty()) {
+            throw new IllegalArgumentException("O nome não pode estar vazio");
+        }
+        this.nomeCompleto = nomeCompleto;
+    }
 
-  public String getEmailInstitucional()
-  {
-    return this.emailInstitucional;
-  }
+    public String getNomeCompleto() {
+        return this.nomeCompleto;
+    }
 
-  public void setProfissao(String profissao)
-  {
-    this.profissao = profissao;
-  }
+    public void setEmailInstitucional(String emailInstitucional) {
+        if (emailInstitucional == null || emailInstitucional.isEmpty() || !emailInstitucional.contains("@") || !emailInstitucional.contains(".")){           
+            throw new IllegalArgumentException("Email inválido");  
+        }
+        this.emailInstitucional = emailInstitucional; 
+    }
 
-  public String getProfissao()
-  {
-    return profissao;
-  }
+    public String getEmailInstitucional() {
+        return this.emailInstitucional;
+    }
 
-  public int getNumeroMissoesRealizadas()
-  {
-    return this.numeroMissoesRealizadas;
-  }
+    public void setProfissao(String profissao) {
+        if (profissao == null || profissao.isEmpty()) {
+            throw new IllegalArgumentException("Profissão inválida");
+        }
+        this.profissao = profissao;
+    }
 
-  public int getNumeroDescobertasRegistadas()
-  {
-    return this.numeroDescobertasRegistadas;
-  }
+    public String getProfissao() {
+        return this.profissao;
+    }
 
-  public void setNumeroMissoesRealizadas(int numeroMissoesRealizadas)
-  {
-    if (numeroMissoesRealizadas > 0)
-      this.numeroMissoesRealizadas = numeroMissoesRealizadas;
-  }
+    public void setPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Password inválida"); 
+        }
+        this.password = password;
+    }
 
-  public void setNumeroDescobertasRegistadas(int numeroDescobertasRegistadas)
-  {
-    if (numeroDescobertasRegistadas > 0)
-      this.numeroDescobertasRegistadas = numeroDescobertasRegistadas;
-  }
+    public String getPassword() {
+        return this.password;
+    }
+
+    public Colonia getColonia() {
+        return this.colonia;
+    }
+
+    public void setColonia(Colonia colonia) {
+        if (colonia == null) {
+            throw new IllegalArgumentException("Colónia inválida");
+        }
+        this.colonia = colonia;
+    }
+
+    public boolean autenticar(String password) {
+      return this.password.equals(password);
+    }
 }
+
