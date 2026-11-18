@@ -4,7 +4,7 @@ Substituam “Membro 1”, “Membro 2” e “Membro 3” pelos nomes dos eleme
 
 ## Margarida — Habitantes e colónias
 
-- [ ] Implementar `Habitante` como classe abstrata, com ID gerado automaticamente, nome, email institucional e profissão/tipo.
+- [ ] Implementar `Habitante` como classe abstrata, com ID gerado automaticamente, nome, email institucional, profissão/tipo, .
 - [ ] Implementar `Cientista`, `Engenheiro` e `Explorador`, incluindo os atributos específicos indicados no enunciado.
 - [ ] Implementar `Colonia`, com ID automático, nome, planeta e a lista de habitantes.
 - [ ] Definir e aplicar validações para nomes, emails, profissão, área científica, especialidade técnica e dados da colónia.
