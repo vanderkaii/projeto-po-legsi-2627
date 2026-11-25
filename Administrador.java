@@ -1,4 +1,4 @@
-public class Administrador extends Habitante
+public class Administrador extends Utilizador
 {
   public Administrador(String nomeCompleto, String emailInstitucional, String profissao)
   {
