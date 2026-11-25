@@ -13,19 +13,19 @@ public class Missao{
     private static int contadorIdMissao = 1;
 
     public enum EstadoMissao {
-        PLANEADA,
-        EM_CURSO,
-        CONCLUIDA
+        Planeada,
+        EmCurso,
+        Concluida,
     }
     public Missao(String designacao, String objetivo,GestorColonia gestor,Colonia colonia){
-        this.id=contadorIdMissao++;
+        this.idM=contadorIdMissao++;
         this.designacao=designacao;
         this.objetivo=objetivo;
         this.colonia=colonia;
         this.equipaParticipante=new ArrayList<>();
         this.descoberta=new ArrayList<>();
         this.gestor=gestor;
-        this.estado=EstadoMissao.PLANEADA;
+        this.estado=EstadoMissao.Planeada;
     }
 
     //setters e getters
@@ -71,12 +71,12 @@ public class Missao{
             throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
         }
 
-        if(estado != EstadoMissao.PLANEADA){
+        if(estado != EstadoMissao.Planeada){
             throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
         } 
 
-        if(equippaParticipante.contains(habitante)){
-            throw new IllegalArgumentException("O habitante já participa nesta missa")
+        if(equipaParticipante.contains(habitante)){
+            throw new IllegalArgumentException("O habitante já participa nesta missa");
         }
 
         equipaParticipante.add(habitante);
@@ -84,7 +84,7 @@ public class Missao{
 
     public void removerParticipante(Habitante habitante) {
 
-        if (estado != EstadoMissao.PLANEADA) {
+        if (estado != EstadoMissao.Planeada) {
             throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
         }
 
@@ -101,7 +101,7 @@ public class Missao{
             throw new IllegalArgumentException("Estado inválido.");
         }
 
-        if (estado == EstadoMissao.PLANEADA && novoEstado == EstadoMissao.EM_CURSO) {
+        if (estado == EstadoMissao.Planeada && novoEstado == EstadoMissao.EmCurso) {
 
             if (equipaParticipante.isEmpty()) {
                 throw new IllegalStateException("A missão necessita de participantes.");
@@ -109,7 +109,7 @@ public class Missao{
 
             estado = novoEstado;
 
-        } else if (estado == EstadoMissao.EM_CURSO && novoEstado == EstadoMissao.CONCLUIDA) {
+        } else if (estado == EstadoMissao.EmCurso && novoEstado == EstadoMissao.Concluida) {
 
             estado = novoEstado;
 
@@ -124,12 +124,12 @@ public class Missao{
             throw new IllegalArgumentException("Descoberta inválida.");
         }
 
-        if (estado != EstadoMissao.EM_CURSO) {
+        if (estado != EstadoMissao.EmCurso) {
             throw new IllegalStateException("Só é possível registar descobertas em missões em curso.");
         }
 
-        if (!descobertas.contains(descoberta)) {
-            descobertas.add(descoberta);
+        if (!descoberta.contains(descoberta)) {
+            descoberta.add(descoberta);
         }
     }
 }
