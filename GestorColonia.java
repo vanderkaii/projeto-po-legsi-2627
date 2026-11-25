@@ -5,7 +5,6 @@
 4. Acompanhar o progresso e estado das missões
 */
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class GestorColonia extends Utilizador{
 
@@ -40,7 +39,7 @@ public class GestorColonia extends Utilizador{
     }
 
     public void setEmail(String email) {
-        if (emailInstitucional == null || emailInstitucional.isEmpty() || !emailInstitucional.contains("@") || !emailInstitucional.contains(".")){           
+        if (email == null || email.isEmpty() || !email.contains("@") || !email.contains(".")){           
             throw new IllegalArgumentException("Email inválido");  
         }
         this.email = email;

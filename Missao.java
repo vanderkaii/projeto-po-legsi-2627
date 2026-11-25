@@ -13,10 +13,28 @@ public class Missao
 
   private static int contadorIdMissao = 1;
 
+<<<<<<< HEAD
   public enum EstadoMissao
   {
     PLANEADA, EM_CURSO, CONCLUIDA
   }
+=======
+    public enum EstadoMissao {
+        Planeada,
+        EmCurso,
+        Concluida,
+    }
+    public Missao(String designacao, String objetivo,GestorColonia gestor,Colonia colonia){
+        this.idM=contadorIdMissao++;
+        this.designacao=designacao;
+        this.objetivo=objetivo;
+        this.colonia=colonia;
+        this.equipaParticipante=new ArrayList<>();
+        this.descoberta=new ArrayList<>();
+        this.gestor=gestor;
+        this.estado=EstadoMissao.Planeada;
+    }
+>>>>>>> origin/clara
 
   public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia)
   {
@@ -86,12 +104,12 @@ public class Missao
             throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
         }
 
-        if(estado != EstadoMissao.PLANEADA){
+        if(estado != EstadoMissao.Planeada){
             throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
         } 
 
-        if(equippaParticipante.contains(habitante)){
-            throw new IllegalArgumentException("O habitante já participa nesta missa")
+        if(equipaParticipante.contains(habitante)){
+            throw new IllegalArgumentException("O habitante já participa nesta missa");
         }
 
         equipaParticipante.add(habitante);
@@ -100,6 +118,7 @@ public class Missao
   public void removerParticipante(Habitante habitante)
   {
 
+<<<<<<< HEAD
     if (estado != EstadoMissao.PLANEADA)
     {
       throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
@@ -108,6 +127,40 @@ public class Missao
     if (!equipaParticipante.contains(habitante))
     {
       throw new IllegalArgumentException("O habitante não participa nesta missão.");
+=======
+        if (estado != EstadoMissao.Planeada) {
+            throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
+        }
+
+        if (!equipaParticipante.contains(habitante)) {
+            throw new IllegalArgumentException("O habitante não participa nesta missão.");
+        }
+
+        equipaParticipante.remove(habitante);
+    }
+
+    public void alterarEstado(EstadoMissao novoEstado) {
+
+        if (novoEstado == null) {
+            throw new IllegalArgumentException("Estado inválido.");
+        }
+
+        if (estado == EstadoMissao.Planeada && novoEstado == EstadoMissao.EmCurso) {
+
+            if (equipaParticipante.isEmpty()) {
+                throw new IllegalStateException("A missão necessita de participantes.");
+            }
+
+            estado = novoEstado;
+
+        } else if (estado == EstadoMissao.EmCurso && novoEstado == EstadoMissao.Concluida) {
+
+            estado = novoEstado;
+
+        } else {
+            throw new IllegalStateException("Transição de estado inválida.");
+        }
+>>>>>>> origin/clara
     }
 
     equipaParticipante.remove(habitante);
@@ -116,9 +169,19 @@ public class Missao
   public void alterarEstado(EstadoMissao novoEstado)
   {
 
+<<<<<<< HEAD
     if (novoEstado == null)
     {
       throw new IllegalArgumentException("Estado inválido.");
+=======
+        if (estado != EstadoMissao.EmCurso) {
+            throw new IllegalStateException("Só é possível registar descobertas em missões em curso.");
+        }
+
+        if (!descoberta.contains(descoberta)) {
+            descoberta.add(descoberta);
+        }
+>>>>>>> origin/clara
     }
 
     if (estado == EstadoMissao.PLANEADA && novoEstado == EstadoMissao.EM_CURSO)
