@@ -1,135 +1,165 @@
 import java.util.ArrayList;
 
-public class Missao{
-    private int idM;
-    private String designacao;
-    private String objetivo;
-    private ArrayList<Habitante> equipaParticipante;
-    private GestorColonia gestor;
-    private Colonia colonia;
-    private EstadoMissao estado; //planeada, em curso ou concluida
-    private ArrayList<Descoberta> descoberta;
+public class Missao
+{
+  private String id;
+  private String designacao;
+  private String objetivo;
+  private ArrayList<Habitante> equipaParticipante;
+  private GestorColonia gestor;
+  private Colonia colonia;
+  private EstadoMissao estado; // Planeada, EmCurso ou Concluida
+  private ArrayList<Descoberta> descoberta;
 
-    private static int contadorIdMissao = 1;
+  private static int contadorIdMissao = 1;
 
-    public enum EstadoMissao {
-        PLANEADA,
-        EM_CURSO,
-        CONCLUIDA
-    }
-    public Missao(String designacao, String objetivo,GestorColonia gestor,Colonia colonia){
-        this.id=contadorIdMissao++;
-        this.designacao=designacao;
-        this.objetivo=objetivo;
-        this.colonia=colonia;
-        this.equipaParticipante=new ArrayList<>();
-        this.descoberta=new ArrayList<>();
-        this.gestor=gestor;
-        this.estado=EstadoMissao.PLANEADA;
-    }
+  public enum EstadoMissao
+  {
+    Planeada, EmCurso, Concluida,
+  }
 
-    //setters e getters
-    public int getId(){
-        return idM;
-    }
+  public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia)
+  {
+    this.id = "M" + contadorIdMissao++;
+    setDesignacao(designacao);
+    setObjetivo(objetivo);
+    setColonia(colonia);
+    this.equipaParticipante = new ArrayList<>();
+    this.descoberta = new ArrayList<>();
+    setGestor(gestor);
+    this.estado = EstadoMissao.Planeada;
+  }
 
-    public String getObjetivo(){
-        return objetivo;
-    }
-    public void setObjetivo(String objetivo){
-        this.objetivo=objetivo;
-    }
+  // setters e getters
+  public String getId()
+  {
+    return this.id;
+  }
 
-    public String getDesignacao(){
-        return designacao;
-    }
-    public void setDesignacao(String designacao){
-        this.designacao=designacao;
-    }
+  public String getObjetivo()
+  {
+    return this.objetivo;
+  }
 
-    public Colonia getColonia(){
-        return colonia;
-    }
-    public void setColonia(Colonia colonia){
-        this.colonia=colonia;
-    }
+  public void setObjetivo(String objetivo)
+  {
+    this.objetivo = objetivo;
+  }
 
-    public GestorColonia getGestor(){
-        return gestor;
-    }
-    public void setGestor(GestorColonia gestor){
-        this.gestor=gestor;
-    }
+  public String getDesignacao()
+  {
+    return this.designacao;
+  }
 
-    public void adicionarParticipante(Habitante habitante){
-        //Verificações
-        if(habitante==null){
-            throw new IllegalArgumentException("Habitante inválido.");
-        }
+  public void setDesignacao(String designacao)
+  {
+    this.designacao = designacao;
+  }
 
-        if(!colonia.getHabitante().contains(habitante)){
-            throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
-        }
+  public Colonia getColonia()
+  {
+    return this.colonia;
+  }
 
-        if(estado != EstadoMissao.PLANEADA){
-            throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
-        } 
+  public void setColonia(Colonia colonia)
+  {
+    this.colonia = colonia;
+  }
 
-        if(equippaParticipante.contains(habitante)){
-            throw new IllegalArgumentException("O habitante já participa nesta missa")
-        }
+  public GestorColonia getGestor()
+  {
+    return this.gestor;
+  }
 
-        equipaParticipante.add(habitante);
-    }
+  public void setGestor(GestorColonia gestor)
+  {
+    this.gestor = gestor;
+  }
 
-    public void removerParticipante(Habitante habitante) {
+  public void adicionarParticipante(Habitante habitante)
+  {
+    // Verificações
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
 
-        if (estado != EstadoMissao.PLANEADA) {
-            throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
-        }
+    if (!this.colonia.procurarHabitante(habitante))
+      throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
 
-        if (!equipaParticipante.contains(habitante)) {
-            throw new IllegalArgumentException("O habitante não participa nesta missão.");
-        }
+    if (estado != EstadoMissao.Planeada)
+      throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
 
-        equipaParticipante.remove(habitante);
-    }
+    if (equipaParticipante.contains(habitante))
+      throw new IllegalArgumentException("O habitante já participa nesta missão.");
 
-    public void alterarEstado(EstadoMissao novoEstado) {
+    equipaParticipante.add(habitante);
+  }
 
-        if (novoEstado == null) {
-            throw new IllegalArgumentException("Estado inválido.");
-        }
-
-        if (estado == EstadoMissao.PLANEADA && novoEstado == EstadoMissao.EM_CURSO) {
-
-            if (equipaParticipante.isEmpty()) {
-                throw new IllegalStateException("A missão necessita de participantes.");
-            }
-
-            estado = novoEstado;
-
-        } else if (estado == EstadoMissao.EM_CURSO && novoEstado == EstadoMissao.CONCLUIDA) {
-
-            estado = novoEstado;
-
-        } else {
-            throw new IllegalStateException("Transição de estado inválida.");
-        }
+  public void removerParticipante(Habitante habitante)
+  {
+    if (estado != EstadoMissao.Planeada)
+    {
+      throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
     }
 
-    public void adicionarDescoberta(Descoberta descoberta) {
-
-        if (descoberta == null) {
-            throw new IllegalArgumentException("Descoberta inválida.");
-        }
-
-        if (estado != EstadoMissao.EM_CURSO) {
-            throw new IllegalStateException("Só é possível registar descobertas em missões em curso.");
-        }
-
-        if (!descobertas.contains(descoberta)) {
-            descobertas.add(descoberta);
-        }
+    if (!equipaParticipante.contains(habitante))
+    {
+      throw new IllegalArgumentException("O habitante não participa nesta missão.");
     }
+
+    equipaParticipante.remove(habitante);
+  }
+
+  public void iniciarMissao()
+  {
+    if (this.estado == EstadoMissao.EmCurso)
+      throw new IllegalArgumentException("Esta missão já está em curso.");
+
+    if (this.estado == EstadoMissao.Concluida)
+      throw new IllegalArgumentException("Esta missão já foi concluida.");
+
+    this.estado = EstadoMissao.EmCurso;
+  }
+
+  public void concluirMissao()
+  {
+    if (this.estado == EstadoMissao.Planeada)
+      throw new IllegalArgumentException("Esta missão ainda não foi iniciada.");
+
+    this.estado = EstadoMissao.Concluida;
+  }
+
+  public void adicionarDescoberta(Descoberta descoberta)
+  {
+    if (descoberta == null)
+    {
+      throw new IllegalArgumentException("Descoberta inválida.");
+    }
+
+    if (estado != EstadoMissao.EmCurso)
+    {
+      throw new IllegalStateException("Só é possível registar descobertas de missões em curso.");
+    }
+
+    if (!this.descoberta.contains(descoberta))
+    {
+      this.descoberta.add(descoberta);
+    }
+  }
+
+  public boolean procurarHabitanteNaMissao(Habitante habitante)
+  {
+    if (this.equipaParticipante.contains(habitante))
+      return true;
+
+    return false;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Missao{id='" + this.id + "', designacao='" + this.designacao
+        + "', objetivo='" + this.objetivo + "', estado=" + this.estado
+        + ", participantes=" + this.equipaParticipante.size()
+        + ", descobertas=" + this.descoberta.size() + "}";
+  }
 }

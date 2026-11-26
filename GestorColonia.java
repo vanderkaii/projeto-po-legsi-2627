@@ -1,3 +1,4 @@
+
 /*
 1. Autenticar-se
 2. Criar e gerir missões (adicionar/remover participantes)
@@ -5,66 +6,53 @@
 4. Acompanhar o progresso e estado das missões
 */
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class GestorColonia extends Utilizador{
+public class GestorColonia extends Utilizador
+{
+  private String id;
+  private ArrayList<Missao> missoesSupervisionadas;
 
-    private int id;
-    private String nome;
-    private String email;
-    private ArrayList<Missao> missoesSupervisionadas;
+  private static int contadorId = 1;
 
-    private static int contadorId = 1;
+  public GestorColonia(String nome, String email, String password)
+  {
+    super(nome, email, password);
+    this.id = "G" + contadorId++;
+    this.missoesSupervisionadas = new ArrayList<>();
+  }
 
-    public GestorColonia(String nome, String email) { //meter super de utilizador
-        this.id = contadorId++;
-        this.nome = nome;
-        this.email = email;
-        this.missoesSupervisionadas = new ArrayList<>();
-    }
+  public String getId()
+  {
+    return id;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public ArrayList<Missao> getMissoesSupervisionadas()
+  {
+    return new ArrayList<>(missoesSupervisionadas);
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public int getNumeroMissoesSupervisionadas()
+  {
+    return missoesSupervisionadas.size();
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public void adicionarMissaoSuperV(Missao missao)
+  {
+    if (missao == null)
+      throw new IllegalArgumentException("Missão inválida.");
 
-    public String getEmail() {
-        return email;
-    }
+    if (!missoesSupervisionadas.contains(missao))
+      missoesSupervisionadas.add(missao);
+  }
 
-    public void setEmail(String email) {
-        if (emailInstitucional == null || emailInstitucional.isEmpty() || !emailInstitucional.contains("@") || !emailInstitucional.contains(".")){           
-            throw new IllegalArgumentException("Email inválido");  
-        }
-        this.email = email;
-    }
+  public void removerMissaoSuperV(Missao missao)
+  {
+    missoesSupervisionadas.remove(missao);
+  }
 
-    public ArrayList<Missao> getMissoesSupervisionadas() {
-        return new ArrayList<>(missoesSupervisionadas);
-    }
-
-    public int getNumeroMissoesSupervisionadas() {
-        return missoesSupervisionadas.size();
-    }
-
-    public void adicionarMissaoSuperV(Missao missao) {
-        if (missao == null) {
-            throw new IllegalArgumentException("Missão inválida.");
-        }
-
-        if (!missoesSupervisionadas.contains(missao)) {
-            missoesSupervisionadas.add(missao);
-        }
-    }
-
-    public void removerMissaoSuperV(Missao missao) {
-        missoesSupervisionadas.remove(missao);
-    }
+  public void verMissoesSupervisionadas()
+  {
+    for (Missao missao : getMissoesSupervisionadas())
+      System.out.println(missao);
+  }
 }

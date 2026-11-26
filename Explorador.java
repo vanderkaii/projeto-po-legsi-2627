@@ -1,6 +1,8 @@
-public class Explorador extends Habitante {
-
-    public Explorador(String nomeCompleto, String emailInstitucional, String profissao, String password) {
-        super(nomeCompleto, emailInstitucional, profissao, password);
-    }
+public class Explorador extends Habitante
+{
+  public Explorador(String nome, String email, String password)
+  {
+    super(nome, email, password);
+    setProfissao("Explorador");
+  }
 }
