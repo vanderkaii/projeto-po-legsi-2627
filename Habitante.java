@@ -10,8 +10,8 @@ public abstract class Habitante extends Utilizador
 
   public Habitante(String nomeCompleto, String emailInstitucional, String password)
   {
-    this.id = "H" + contadorId++;
     super(nomeCompleto, emailInstitucional, password);
+    this.id = "H" + contadorId++;
   }
 
   public String getId()
@@ -47,4 +47,5 @@ public abstract class Habitante extends Utilizador
 
     this.colonia = colonia;
   }
+
 }

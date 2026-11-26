@@ -16,8 +16,8 @@ public class GestorColonia extends Utilizador
 
   public GestorColonia(String nome, String email, String password)
   {
-    this.id = "G" + contadorId++;
     super(nome, email, password);
+    this.id = "G" + contadorId++;
     this.missoesSupervisionadas = new ArrayList<>();
   }
 
