@@ -1,74 +1,81 @@
 import java.time.LocalDate;
 
-public class Descoberta {
+public class Descoberta
+{
+  private String id;
+  private Missao missaoAssociada;
+  private Habitante habitanteResponsavel;
+  private String tipo;
+  private LocalDate data; // ns oq é isto oops
+  private String descricao;
 
-    private int id;
-    private Missao missaoAssociada;
-    private Habitante habitanteResponsavel;
-    private String tipo;
-    private LocalDate data; //ns oq é isto oops
-    private String descricao;
+  private static int contadorId = 1;
 
-    private static int contadorId = 1;
+  // Removi a data dos parametros do constructor. A data da descoberta passa a ser a data atual que é obtida com o LocalDate
+  public Descoberta(Missao missaoAssociada, Habitante habitanteResponsavel, String tipo, LocalDate data,
+      String descricao)
+  {
+    if (missaoAssociada == null || habitanteResponsavel == null)
+      throw new IllegalArgumentException("Missão ou habitante inválidos.");
 
-    public Descoberta(Missao missaoAssociada, Habitante habitanteResponsavel, String tipo, LocalDate data, String descricao) {
+    if (!missaoAssociada.procurarHabitanteNaMissao(habitanteResponsavel))
+      throw new IllegalArgumentException("O habitante não participa nesta missão.");
 
-        if (missaoAssociada == null || habitanteResponsavel == null) {
-            throw new IllegalArgumentException("Missão ou habitante inválidos.");
-        }
+    if (tipo == null || tipo.isBlank() || descricao == null || descricao.isBlank() || data == null)
+      throw new IllegalArgumentException("Os dados da descoberta são inválidos.");
 
-        if (!missaoAssociada.getEquipaParticipante().contains(habitanteResponsavel)) {
-            throw new IllegalArgumentException("O habitante não participa nesta missão.");
-        }
+    if (data.isAfter(LocalDate.now()))
+      throw new IllegalArgumentException("A data da descoberta não pode ser futura.");
 
-        if (tipo == null || tipo.isBlank()|| descricao == null || descricao.isBlank() || data == null) {
-            throw new IllegalArgumentException("Os dados da descoberta são inválidos.");
-        }
+    this.id = "D" + contadorId++;
+    this.missaoAssociada = missaoAssociada;
+    this.habitanteResponsavel = habitanteResponsavel;
+    setTipo(tipo);
+    this.data = LocalDate.now();
+    setDescricao(descricao); // Aqui eu substitui pelo setter (em vez de ter this.descricao = descricao) porque se houver alguma verificaçao, podemos aproveitar a do setter (DRY = DON'T REPEAT YOURSELF)
+                              // É a mesma lógica para qualquer setter no constructor
 
-        if (data.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data da descoberta não pode ser futura.");
-        }
+    missaoAssociada.adicionarDescoberta(this);
+  }
 
-        this.id = contadorId++;
-        this.missaoAssociada = missaoAssociada;
-        this.habitanteResponsavel = habitanteResponsavel;
-        this.tipo = tipo;
-        this.data = data;
-        this.descricao = descricao;
+  public String getId()
+  {
+    return id;
+  }
 
-        missaoAssociada.adicionarDescoberta(this);
-    }
+  public Missao getMissaoAssociada()
+  {
+    return missaoAssociada;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public Habitante getHabitanteResponsavel()
+  {
+    return habitanteResponsavel;
+  }
 
-    public Missao getMissaoAssociada() {
-        return missaoAssociada;
-    }
+  public String getTipo()
+  {
+    return tipo;
+  }
 
-    public Habitante getHabitanteResponsavel() {
-        return habitanteResponsavel;
-    }
+  public void setTipo(String tipo)
+  {
+    this.tipo = tipo;
+  }
 
-    public String getTipo() {
-        return tipo;
-    }
+  public LocalDate getData()
+  {
+    return data;
+  }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+  public String getDescricao()
+  {
+    return descricao;
+  }
 
-    public LocalDate getData() {
-        return data;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+  public void setDescricao(String descricao)
+  {
+    this.descricao = descricao;
+  }
 
 }

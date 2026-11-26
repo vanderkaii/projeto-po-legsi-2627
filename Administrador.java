@@ -1,8 +1,13 @@
 public class Administrador extends Utilizador
 {
-  public Administrador(String nomeCompleto, String emailInstitucional, String profissao)
+  private String id;
+
+  private static int contadorId = 1;
+
+  public Administrador(String nomeCompleto, String emailInstitucional, String password)
   {
-    super(nomeCompleto, emailInstitucional, profissao);
+    super(nomeCompleto, emailInstitucional, password);
+    this.id = "A" + contadorId;
   }
   
 }

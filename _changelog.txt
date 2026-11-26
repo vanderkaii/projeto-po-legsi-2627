@@ -1,0 +1,10 @@
+26/11/2026 02:35
+  - Os IDs passaram de int para String, assim pode-se usar prefixos.
+  - Centralizada a informação de utilizador (nome, email e password), respetivas validações e autenticação em `Utilizador`.
+  - `Habitante` passou a herdar de `Utilizador`; os IDs passaram a usar prefixos (`H`, `C`, `G`, `M` e `D`) nas entidades correspondentes. Os construtores de `Cientista`, `Engenheiro` e `Explorador` foram ajustados e definem a profissão.
+  - `Colonia` passou a validar nome e planeta e a gerir habitantes, incluindo pesquisa e atualização da associação à colónia.
+  - `GestorColonia` passou a herdar de `Utilizador` e ganhou operações para gerir e listar missões supervisionadas.
+  - `Missao` ganhou operações para iniciar/concluir missões, gerir participantes e descobertas, verificar participantes e apresentar um resumo informativo com `toString()`.
+  - `Descoberta` passou a validar os dados e a participação do habitante na missão, rejeitar datas futuras, guardar a data atual e registar-se na missão; o ID passou a usar o prefixo `D`.
+  - Adicionei a Administrador
+  - Adicionados `_duvidas.txt` e `_requisitos.txt`; removidos `to-do.txt` e `mavenproject1.zip`.

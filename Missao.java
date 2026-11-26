@@ -2,61 +2,43 @@ import java.util.ArrayList;
 
 public class Missao
 {
-  private int idM;
+  private String id;
   private String designacao;
   private String objetivo;
   private ArrayList<Habitante> equipaParticipante;
   private GestorColonia gestor;
   private Colonia colonia;
-  private EstadoMissao estado; // planeada, em curso ou concluida
+  private EstadoMissao estado; // Planeada, EmCurso ou Concluida
   private ArrayList<Descoberta> descoberta;
 
   private static int contadorIdMissao = 1;
 
-<<<<<<< HEAD
   public enum EstadoMissao
   {
-    PLANEADA, EM_CURSO, CONCLUIDA
+    Planeada, EmCurso, Concluida,
   }
-=======
-    public enum EstadoMissao {
-        Planeada,
-        EmCurso,
-        Concluida,
-    }
-    public Missao(String designacao, String objetivo,GestorColonia gestor,Colonia colonia){
-        this.idM=contadorIdMissao++;
-        this.designacao=designacao;
-        this.objetivo=objetivo;
-        this.colonia=colonia;
-        this.equipaParticipante=new ArrayList<>();
-        this.descoberta=new ArrayList<>();
-        this.gestor=gestor;
-        this.estado=EstadoMissao.Planeada;
-    }
->>>>>>> origin/clara
 
   public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia)
   {
-    this.id = contadorIdMissao++;
-    this.designacao = designacao;
-    this.objetivo = objetivo;
-    this.colonia = colonia;
+    this.id = "M" + contadorIdMissao++;
+    setDesignacao(designacao);
+    setObjetivo(objetivo);
+    setColonia(colonia);
     this.equipaParticipante = new ArrayList<>();
     this.descoberta = new ArrayList<>();
-    this.gestor = gestor;
-    this.estado = EstadoMissao.PLANEADA;
+    setGestor(gestor);
+    this.estado = EstadoMissao.Planeada;
   }
 
   // setters e getters
-  public int getId()
+  public String getId()
   {
-    return idM;
+    return this.id;
   }
 
   public String getObjetivo()
   {
-    return objetivo;
+    return this.objetivo;
   }
 
   public void setObjetivo(String objetivo)
@@ -66,7 +48,7 @@ public class Missao
 
   public String getDesignacao()
   {
-    return designacao;
+    return this.designacao;
   }
 
   public void setDesignacao(String designacao)
@@ -76,7 +58,7 @@ public class Missao
 
   public Colonia getColonia()
   {
-    return colonia;
+    return this.colonia;
   }
 
   public void setColonia(Colonia colonia)
@@ -86,7 +68,7 @@ public class Missao
 
   public GestorColonia getGestor()
   {
-    return gestor;
+    return this.gestor;
   }
 
   public void setGestor(GestorColonia gestor)
@@ -94,32 +76,27 @@ public class Missao
     this.gestor = gestor;
   }
 
-  public void adicionarParticipante(Habitante habitante){
-        //Verificações
-        if(habitante==null){
-            throw new IllegalArgumentException("Habitante inválido.");
-        }
+  public void adicionarParticipante(Habitante habitante)
+  {
+    // Verificações
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
 
-        if(!colonia.getHabitante().contains(habitante)){
-            throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
-        }
+    if (!this.colonia.procurarHabitante(habitante))
+      throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
 
-        if(estado != EstadoMissao.Planeada){
-            throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
-        } 
+    if (estado != EstadoMissao.Planeada)
+      throw new IllegalStateException("Não é possivel alterar a equipa de uma missão em curso ou concluida.");
 
-        if(equipaParticipante.contains(habitante)){
-            throw new IllegalArgumentException("O habitante já participa nesta missa");
-        }
+    if (equipaParticipante.contains(habitante))
+      throw new IllegalArgumentException("O habitante já participa nesta missão.");
 
-        equipaParticipante.add(habitante);
-    }
+    equipaParticipante.add(habitante);
+  }
 
   public void removerParticipante(Habitante habitante)
   {
-
-<<<<<<< HEAD
-    if (estado != EstadoMissao.PLANEADA)
+    if (estado != EstadoMissao.Planeada)
     {
       throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
     }
@@ -127,100 +104,62 @@ public class Missao
     if (!equipaParticipante.contains(habitante))
     {
       throw new IllegalArgumentException("O habitante não participa nesta missão.");
-=======
-        if (estado != EstadoMissao.Planeada) {
-            throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
-        }
-
-        if (!equipaParticipante.contains(habitante)) {
-            throw new IllegalArgumentException("O habitante não participa nesta missão.");
-        }
-
-        equipaParticipante.remove(habitante);
-    }
-
-    public void alterarEstado(EstadoMissao novoEstado) {
-
-        if (novoEstado == null) {
-            throw new IllegalArgumentException("Estado inválido.");
-        }
-
-        if (estado == EstadoMissao.Planeada && novoEstado == EstadoMissao.EmCurso) {
-
-            if (equipaParticipante.isEmpty()) {
-                throw new IllegalStateException("A missão necessita de participantes.");
-            }
-
-            estado = novoEstado;
-
-        } else if (estado == EstadoMissao.EmCurso && novoEstado == EstadoMissao.Concluida) {
-
-            estado = novoEstado;
-
-        } else {
-            throw new IllegalStateException("Transição de estado inválida.");
-        }
->>>>>>> origin/clara
     }
 
     equipaParticipante.remove(habitante);
   }
 
-  public void alterarEstado(EstadoMissao novoEstado)
+  public void iniciarMissao()
   {
+    if (this.estado == EstadoMissao.EmCurso)
+      throw new IllegalArgumentException("Esta missão já está em curso.");
 
-<<<<<<< HEAD
-    if (novoEstado == null)
-    {
-      throw new IllegalArgumentException("Estado inválido.");
-=======
-        if (estado != EstadoMissao.EmCurso) {
-            throw new IllegalStateException("Só é possível registar descobertas em missões em curso.");
-        }
+    if (this.estado == EstadoMissao.Concluida)
+      throw new IllegalArgumentException("Esta missão já foi concluida.");
 
-        if (!descoberta.contains(descoberta)) {
-            descoberta.add(descoberta);
-        }
->>>>>>> origin/clara
-    }
+    this.estado = EstadoMissao.EmCurso;
+  }
 
-    if (estado == EstadoMissao.PLANEADA && novoEstado == EstadoMissao.EM_CURSO)
-    {
+  public void concluirMissao()
+  {
+    if (this.estado == EstadoMissao.Planeada)
+      throw new IllegalArgumentException("Esta missão ainda não foi iniciada.");
 
-      if (equipaParticipante.isEmpty())
-      {
-        throw new IllegalStateException("A missão necessita de participantes.");
-      }
-
-      estado = novoEstado;
-
-    } else if (estado == EstadoMissao.EM_CURSO && novoEstado == EstadoMissao.CONCLUIDA)
-    {
-
-      estado = novoEstado;
-
-    } else
-    {
-      throw new IllegalStateException("Transição de estado inválida.");
-    }
+    this.estado = EstadoMissao.Concluida;
   }
 
   public void adicionarDescoberta(Descoberta descoberta)
   {
-
     if (descoberta == null)
     {
       throw new IllegalArgumentException("Descoberta inválida.");
     }
 
-    if (estado != EstadoMissao.EM_CURSO)
+    if (estado != EstadoMissao.EmCurso)
     {
-      throw new IllegalStateException("Só é possível registar descobertas em missões em curso.");
+      throw new IllegalStateException("Só é possível registar descobertas de missões em curso.");
     }
 
-    if (!descobertas.contains(descoberta))
+    if (!this.descoberta.contains(descoberta))
     {
-      descobertas.add(descoberta);
+      this.descoberta.add(descoberta);
     }
+  }
+
+  public boolean procurarHabitanteNaMissao(Habitante habitante)
+  {
+    if (this.equipaParticipante.contains(habitante))
+      return true;
+
+    return false;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Missao{id='" + this.id + "', designacao='" + this.designacao
+        + "', objetivo='" + this.objetivo + "', estado=" + this.estado
+        + ", participantes=" + this.equipaParticipante.size()
+        + ", descobertas=" + this.descoberta.size() + "}";
   }
 }

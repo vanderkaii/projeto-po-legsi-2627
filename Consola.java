@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Consola
 {
-
   private final Scanner scanner = new Scanner(System.in);
 
   public void escrever(String mensagem)

@@ -1,0 +1,5 @@
+Profissão:
+  O que é profissao (atributo de habitante) exatamente? Cientista, Engenheiro ou Explorador? Se sim, não é preciso setProfissao().
+  Porque ao criar um objeto Cientista, profissao é automaticamente Cientista (this.profissao = "Cientista").
+  Também nao é possivel mudar a profissao porque mudar o tipo de um objeto é impossivel (ex: mudar Cientista para Engenheiro).
+  
