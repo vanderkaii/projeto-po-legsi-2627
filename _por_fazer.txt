@@ -1,6 +1,4 @@
-- Estive a ler o enunciado e o Administrador é que gere as colónias. Ou seja,
-quase todos os métodos em Colonia.java vão passar para Administrador.java.
-
+- Integridade
+- Administrador
 - Login/Autenticação
-
 - Menus (ultima coisa)

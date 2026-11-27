@@ -18,7 +18,7 @@ public class Missao
     Planeada, EmCurso, Concluida,
   }
 
-  public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia)
+  public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia, ListaMissoes listaMissoes)
   {
     this.id = "M" + contadorIdMissao++;
     setDesignacao(designacao);
@@ -28,6 +28,8 @@ public class Missao
     this.descoberta = new ArrayList<>();
     setGestor(gestor);
     this.estado = EstadoMissao.Planeada;
+
+    listaMissoes.adicionarMissao(this);
   }
 
   // setters e getters
@@ -40,6 +42,16 @@ public class Missao
   {
     return this.objetivo;
   }
+
+  public EstadoMissao getEstado()
+  {
+    return this.estado;
+  }
+
+  public ArrayList<Habitante> getEquipaParticipante()
+  {
+    return this.equipaParticipante;
+  } 
 
   public void setObjetivo(String objetivo)
   {
@@ -76,6 +88,22 @@ public class Missao
     this.gestor = gestor;
   }
 
+  public void verParticipantes()
+  {
+    System.out.println("Equipa participante:");
+    
+    if (this.equipaParticipante.isEmpty())
+    {
+      System.out.println("Vazia.");
+      return;
+    }
+
+    for (Habitante habitante : equipaParticipante)
+    {
+      System.out.println(habitante);
+    }
+  }
+
   public void adicionarParticipante(Habitante habitante)
   {
     // Verificações
@@ -109,8 +137,19 @@ public class Missao
     equipaParticipante.remove(habitante);
   }
 
+  public void removerTodosParticipantes()
+  {
+    if (estado != EstadoMissao.Planeada)
+      throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
+
+    equipaParticipante.clear();
+  }
+
   public void iniciarMissao()
   {
+    if (this.equipaParticipante.isEmpty())
+      throw new IllegalArgumentException("A equipa desta missão está vazia.");
+
     if (this.estado == EstadoMissao.EmCurso)
       throw new IllegalArgumentException("Esta missão já está em curso.");
 

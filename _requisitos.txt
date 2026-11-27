@@ -1,3 +1,3 @@
 MISSOES:
-  O estado de uma missao em curso nao pode ser alterada.
+  O estado de uma missao em curso nao pode ser alterada para Planeada.
   Só é possivel registar descobertas de missoes em curso.

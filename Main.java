@@ -4,8 +4,9 @@ public class Main
 {
   public static void main(String[] args)
   {
-    GestorColonia gestorMarte = new GestorColonia("Ana Gestora", "ana@exemplo.pt", "senha1");
-    GestorColonia gestorEuropa = new GestorColonia("Bruno Gestor", "bruno@exemplo.pt", "senha2");
+    ListaMissoes listaMissoes = new ListaMissoes();
+    GestorColonia gestorMarte = new GestorColonia("Ana Gestora", "ana@exemplo.pt", "senha1", listaMissoes);
+    GestorColonia gestorEuropa = new GestorColonia("Bruno Gestor", "bruno@exemplo.pt", "senha2", listaMissoes);
     System.out.println("Gestores: " + gestorMarte.getNome() + " (" + gestorMarte.getId() + "), "
         + gestorEuropa.getNome() + " (" + gestorEuropa.getId() + ")");
     System.out.println("Autenticacao: " + gestorMarte.autenticar("senha1"));
@@ -15,8 +16,11 @@ public class Main
     System.out.println("Dados atualizados: " + gestorMarte.getNome() + ", " + gestorMarte.getEmail()
         + ", autenticacao=" + gestorMarte.autenticar("novaSenha"));
 
-    Colonia marte = new Colonia("Ares", "Marte");
-    Colonia europa = new Colonia("Europa", "Jupiter");
+    ListaColonias listaColonias = new ListaColonias();
+    Administrador administrador = new Administrador("Administrador", "admin@exemplo.pt", "senhaAdmin",
+        listaColonias, listaMissoes);
+    Colonia marte = administrador.criarColonia("Ares", "Marte");
+    Colonia europa = administrador.criarColonia("Europa", "Jupiter");
     marte.setNome("Nova Ares");
     System.out.println("\nColonias:");
     System.out.println(marte.getId() + " - " + marte.getNome() + ", planeta " + marte.getPlaneta());
@@ -42,19 +46,14 @@ public class Main
     System.out.println("Area da cientista: " + cientista.getAreaCientifica());
     System.out.println("Especialidade do engenheiro: " + engenheiro.getEspecialidadeTecnica());
 
-    Missao missaoA = new Missao("Exploracao de Marte", "Recolher amostras", gestorMarte, marte);
-    Missao missaoB = new Missao("Analise do solo", "Analisar o solo", gestorMarte, marte);
-    Missao missaoC = new Missao("Exploracao de Europa", "Procurar sinais de vida", gestorEuropa, europa);
+    Missao missaoA = new Missao("Exploracao de Marte", "Recolher amostras", gestorMarte, marte, listaMissoes);
+    Missao missaoB = new Missao("Analise do solo", "Analisar o solo", gestorMarte, marte, listaMissoes);
+    Missao missaoC = new Missao("Exploracao de Europa", "Procurar sinais de vida", gestorEuropa, europa,
+        listaMissoes);
     missaoA.setDesignacao("Exploracao de Ares");
     missaoA.setObjetivo("Recolher amostras de solo");
-    gestorMarte.adicionarMissaoSuperV(missaoA);
-    gestorMarte.adicionarMissaoSuperV(missaoB);
-    gestorMarte.adicionarMissaoSuperV(missaoA);
-    gestorEuropa.adicionarMissaoSuperV(missaoC);
-    System.out.println("\nMissoes supervisionadas por " + gestorMarte.getNome() + ": "
-        + gestorMarte.getNumeroMissoesSupervisionadas());
+    System.out.println("\nMissoes supervisionadas por " + gestorMarte.getNome() + ":");
     gestorMarte.verMissoesSupervisionadas();
-    System.out.println("Copia da lista do gestor: " + gestorMarte.getMissoesSupervisionadas().size());
 
     missaoA.adicionarParticipante(explorador1);
     missaoA.adicionarParticipante(cientista);
@@ -91,9 +90,9 @@ public class Main
     missaoC.concluirMissao();
     gestorEuropa.verMissoesSupervisionadas();
 
-    gestorMarte.removerMissaoSuperV(missaoB);
-    System.out.println("Missoes restantes do gestor de Marte: "
-        + gestorMarte.getNumeroMissoesSupervisionadas());
+    listaMissoes.removerMissao(missaoB);
+    System.out.println("Missoes restantes supervisionadas por " + gestorMarte.getNome() + ":");
+    gestorMarte.verMissoesSupervisionadas();
 
     try
     {

@@ -48,4 +48,15 @@ public abstract class Habitante extends Utilizador
     this.colonia = colonia;
   }
 
+  @Override
+  public String toString()
+  {
+    // É um operador ternario. é uma forma mais compacta do if... else.
+    // Neste caso, se colonia for null, mostra "nenhuma". Se não, mostra colonia.getNome()
+    String nomeColonia = this.colonia == null ? "nenhuma" : this.colonia.getNome();
+
+    return "Habitante{id='" + this.id + "', nome='" + getNome()
+        + "', email='" + getEmail() + "', profissao='" + this.profissao
+        + "', colonia='" + nomeColonia + "'}";
+  }
 }

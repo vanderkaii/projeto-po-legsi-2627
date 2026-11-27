@@ -9,12 +9,14 @@ public class Colonia
 
   private static int contadorId = 1;
 
-  public Colonia(String nome, String planeta)
+  public Colonia(String nome, String planeta, ListaColonias listaColonias)
   {
     this.id = "C" + contadorId++;
     setNome(nome);
     setPlaneta(planeta);
     this.habitantes = new ArrayList<>();
+
+    listaColonias.adicionarColonia(this);
   }
 
   public String getId()
@@ -27,7 +29,6 @@ public class Colonia
     return this.nome;
   }
 
-  // Mover esta para Administrador.java
   public void setNome(String nome)
   {
     if (nome == null || nome.isEmpty())
@@ -43,7 +44,6 @@ public class Colonia
     return this.planeta;
   }
 
-  // Mover esta para Administrador.java
   public void setPlaneta(String planeta)
   {
     if (planeta == null || planeta.isEmpty())
@@ -52,13 +52,20 @@ public class Colonia
     }
     this.planeta = planeta;
   }
-
+  
   public ArrayList<Habitante> getHabitantes()
   {
     return this.habitantes;
   }
+  
+  public void verHabitantes()
+  {
+    for (Habitante habitante : habitantes)
+    {
+      System.out.println(habitante);
+    }
+  }
 
-  // Mover esta para Administrador.java
   public void adicionarHabitante(Habitante habitante)
   {
     if (habitante == null)
@@ -66,12 +73,14 @@ public class Colonia
 
     if (this.habitantes.contains(habitante))
       throw new IllegalArgumentException("Este habitante já pertence à colónia.");
-
+    
+    if (habitante.getColonia() != null)
+      System.out.println("Este habitante já pertence a uma colónia.");
+    
     this.habitantes.add(habitante);
     habitante.setColonia(this);
   }
 
-  // Mover esta para Administrador.java
   public void removerHabitante(Habitante habitante)
   {
     if (habitante == null || !this.habitantes.contains(habitante))
@@ -89,5 +98,13 @@ public class Colonia
       return true;
 
     return false;
+  }
+
+
+  @Override
+  public String toString()
+  {
+    return "Colonia{id='" + this.id + "', nome='" + this.nome
+        + "', planeta='" + this.planeta + "', habitantes=" + this.habitantes.size() + "}";
   }
 }
