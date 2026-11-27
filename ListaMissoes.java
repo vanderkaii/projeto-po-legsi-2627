@@ -16,6 +16,9 @@ public class ListaMissoes
 
   public void adicionarMissao(Missao missao)
   {
+    if (missao == null)
+      throw new IllegalArgumentException("Missão inválida.");
+
     if (missoes.contains(missao))
       throw new IllegalArgumentException("Esta missão já está registada na lista.");
     
@@ -24,7 +27,7 @@ public class ListaMissoes
   
   public void removerMissao(Missao missao)
   {
-    if (!missoes.contains(missao))
+    if (missao == null || !missoes.contains(missao))
       throw new IllegalArgumentException("Esta missão não está registada na lista.");
       
     missoes.remove(missao);

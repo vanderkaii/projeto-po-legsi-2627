@@ -21,7 +21,7 @@ public class Main
         listaColonias, listaMissoes);
     Colonia marte = administrador.criarColonia("Ares", "Marte");
     Colonia europa = administrador.criarColonia("Europa", "Jupiter");
-    marte.setNome("Nova Ares");
+    administrador.renomearColonia(marte, "Nova Ares");
     System.out.println("\nColonias:");
     System.out.println(marte.getId() + " - " + marte.getNome() + ", planeta " + marte.getPlaneta());
     System.out.println(europa.getId() + " - " + europa.getNome() + ", planeta " + europa.getPlaneta());
@@ -33,10 +33,10 @@ public class Main
     cientista.setAreaCientifica("Astrobiologia");
     engenheiro.setEspecialidadeTecnica("Sistemas");
 
-    marte.adicionarHabitante(explorador1);
-    marte.adicionarHabitante(cientista);
-    marte.adicionarHabitante(engenheiro);
-    europa.adicionarHabitante(explorador2);
+    administrador.adicionarHabitanteColonia(marte, explorador1);
+    administrador.adicionarHabitanteColonia(marte, cientista);
+    administrador.adicionarHabitanteColonia(marte, engenheiro);
+    administrador.adicionarHabitanteColonia(europa, explorador2);
     System.out.println("\nHabitantes de " + marte.getNome() + ":");
     for (Habitante habitante : marte.getHabitantes())
       System.out.println(habitante.getId() + " - " + habitante.getNome() + " (" + habitante.getProfissao() + ")");
@@ -50,44 +50,42 @@ public class Main
     Missao missaoB = new Missao("Analise do solo", "Analisar o solo", gestorMarte, marte, listaMissoes);
     Missao missaoC = new Missao("Exploracao de Europa", "Procurar sinais de vida", gestorEuropa, europa,
         listaMissoes);
-    missaoA.setDesignacao("Exploracao de Ares");
-    missaoA.setObjetivo("Recolher amostras de solo");
+    gestorMarte.mudarDesignacao("Exploracao de Ares", missaoA);
+    gestorMarte.mudarObjetivo("Recolher amostras de solo", missaoA);
     System.out.println("\nMissoes supervisionadas por " + gestorMarte.getNome() + ":");
     gestorMarte.verMissoesSupervisionadas();
 
-    missaoA.adicionarParticipante(explorador1);
-    missaoA.adicionarParticipante(cientista);
-    missaoA.adicionarParticipante(engenheiro);
-    System.out.println("\nCientista participa na missao: " + missaoA.procurarHabitanteNaMissao(cientista));
-    missaoA.removerParticipante(engenheiro);
-    missaoA.adicionarParticipante(engenheiro);
+    gestorMarte.adicionarParticipante(explorador1, missaoA);
+    gestorMarte.adicionarParticipante(cientista, missaoA);
+    gestorMarte.adicionarParticipante(engenheiro, missaoA);
+    System.out.println("\nCientista participa na missao: "
+        + gestorMarte.procurarHabitanteNaMissao(cientista, missaoA));
+    gestorMarte.removerParticipante(engenheiro, missaoA);
+    gestorMarte.adicionarParticipante(engenheiro, missaoA);
     System.out.println("Missao: " + missaoA.getId() + " - " + missaoA.getDesignacao()
         + "; objetivo: " + missaoA.getObjetivo());
 
-    missaoA.iniciarMissao();
-    Descoberta descobertaA = new Descoberta(missaoA, cientista, "Amostra", LocalDate.now(),
-        "Amostra de solo recolhida");
-    descobertaA.setTipo("Mineral");
-    descobertaA.setDescricao("Mineral identificado");
-    missaoA.adicionarDescoberta(descobertaA);
+    gestorMarte.iniciarMissao(missaoA);
+    Descoberta descobertaA = new Descoberta(missaoA, cientista, "Mineral", LocalDate.now(),
+        "Mineral identificado");
     System.out.println("\nDescoberta: " + descobertaA.getId() + ", " + descobertaA.getTipo()
         + ", " + descobertaA.getData() + ", " + descobertaA.getDescricao());
     System.out.println("Associada a " + descobertaA.getMissaoAssociada().getDesignacao()
         + " e responsavel: " + descobertaA.getHabitanteResponsavel().getNome());
     System.out.println(missaoA);
-    missaoA.concluirMissao();
+    gestorMarte.concluirMissao(missaoA);
     System.out.println("Estado depois de concluir: " + missaoA);
 
-    missaoB.adicionarParticipante(explorador1);
-    missaoB.iniciarMissao();
+    gestorMarte.adicionarParticipante(explorador1, missaoB);
+    gestorMarte.iniciarMissao(missaoB);
     Descoberta descobertaB = new Descoberta(missaoB, explorador1, "Imagem", LocalDate.now(),
         "Imagem de uma formacao rochosa");
     System.out.println("Segunda descoberta: " + descobertaB.getTipo() + " - " + descobertaB.getDescricao());
-    missaoB.concluirMissao();
+    gestorMarte.concluirMissao(missaoB);
 
-    missaoC.adicionarParticipante(explorador2);
-    missaoC.iniciarMissao();
-    missaoC.concluirMissao();
+    gestorEuropa.adicionarParticipante(explorador2, missaoC);
+    gestorEuropa.iniciarMissao(missaoC);
+    gestorEuropa.concluirMissao(missaoC);
     gestorEuropa.verMissoesSupervisionadas();
 
     listaMissoes.removerMissao(missaoB);
@@ -96,7 +94,7 @@ public class Main
 
     try
     {
-      marte.removerHabitante(explorador1);
+      administrador.removerHabitanteColonia(marte, explorador1);
       System.out.println("Habitante removido da colonia: " + !marte.procurarHabitante(explorador1));
     }
     catch (RuntimeException erro)

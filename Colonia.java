@@ -5,17 +5,19 @@ public class Colonia
   private String id;
   private String nome;
   private String planeta;
-  private ArrayList<Habitante> habitantes;
+  private final ArrayList<Habitante> habitantes;
 
   private static int contadorId = 1;
 
   public Colonia(String nome, String planeta, ListaColonias listaColonias)
   {
-    this.id = "C" + contadorId++;
+    if (listaColonias == null)
+      throw new IllegalArgumentException("Lista de colónias inválida.");
+
     setNome(nome);
     setPlaneta(planeta);
     this.habitantes = new ArrayList<>();
-
+    this.id = "C" + contadorId++;
     listaColonias.adicionarColonia(this);
   }
 
@@ -31,7 +33,7 @@ public class Colonia
 
   public void setNome(String nome)
   {
-    if (nome == null || nome.isEmpty())
+    if (nome == null || nome.isBlank())
     {
       throw new IllegalArgumentException("O nome da colónia não pode estar vazio");
     }
@@ -46,7 +48,7 @@ public class Colonia
 
   public void setPlaneta(String planeta)
   {
-    if (planeta == null || planeta.isEmpty())
+    if (planeta == null || planeta.isBlank())
     {
       throw new IllegalArgumentException("O planeta não pode estar vazio");
     }
@@ -75,7 +77,7 @@ public class Colonia
       throw new IllegalArgumentException("Este habitante já pertence à colónia.");
     
     if (habitante.getColonia() != null)
-      System.out.println("Este habitante já pertence a uma colónia.");
+      throw new IllegalArgumentException("Este habitante já pertence a uma colónia.");
     
     this.habitantes.add(habitante);
     habitante.setColonia(this);
@@ -94,10 +96,7 @@ public class Colonia
 
   public boolean procurarHabitante(Habitante habitante)
   {
-    if (habitantes.contains(habitante))
-      return true;
-
-    return false;
+    return habitantes.contains(habitante);
   }
 
 

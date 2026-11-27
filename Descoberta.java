@@ -60,6 +60,9 @@ public class Descoberta
 
   public void setTipo(String tipo)
   {
+    if (tipo == null || tipo.isBlank())
+      throw new IllegalArgumentException("O tipo da descoberta não pode estar vazio.");
+
     this.tipo = tipo;
   }
 
@@ -75,6 +78,9 @@ public class Descoberta
 
   public void setDescricao(String descricao)
   {
+    if (descricao == null || descricao.isBlank())
+      throw new IllegalArgumentException("A descrição da descoberta não pode estar vazia.");
+
     this.descricao = descricao;
   }
 

@@ -20,7 +20,9 @@ public class Missao
 
   public Missao(String designacao, String objetivo, GestorColonia gestor, Colonia colonia, ListaMissoes listaMissoes)
   {
-    this.id = "M" + contadorIdMissao++;
+    if (listaMissoes == null)
+      throw new IllegalArgumentException("Lista de missões inválida.");
+
     setDesignacao(designacao);
     setObjetivo(objetivo);
     setColonia(colonia);
@@ -29,6 +31,7 @@ public class Missao
     setGestor(gestor);
     this.estado = EstadoMissao.Planeada;
 
+    this.id = "M" + contadorIdMissao++;
     listaMissoes.adicionarMissao(this);
   }
 
@@ -55,6 +58,9 @@ public class Missao
 
   public void setObjetivo(String objetivo)
   {
+    if (objetivo == null || objetivo.isBlank())
+      throw new IllegalArgumentException("O objetivo da missão não pode estar vazio.");
+
     this.objetivo = objetivo;
   }
 
@@ -65,6 +71,9 @@ public class Missao
 
   public void setDesignacao(String designacao)
   {
+    if (designacao == null || designacao.isBlank())
+      throw new IllegalArgumentException("A designação da missão não pode estar vazia.");
+
     this.designacao = designacao;
   }
 
@@ -75,6 +84,12 @@ public class Missao
 
   public void setColonia(Colonia colonia)
   {
+    if (colonia == null)
+      throw new IllegalArgumentException("Colónia inválida.");
+
+    if (this.colonia != null && this.colonia != colonia && !this.equipaParticipante.isEmpty())
+      throw new IllegalStateException("Remova os participantes antes de mudar a colónia.");
+
     this.colonia = colonia;
   }
 
@@ -85,6 +100,9 @@ public class Missao
 
   public void setGestor(GestorColonia gestor)
   {
+    if (gestor == null)
+      throw new IllegalArgumentException("Gestor inválido.");
+
     this.gestor = gestor;
   }
 
@@ -129,7 +147,7 @@ public class Missao
       throw new IllegalStateException("Não é possível alterar a equipa de uma missão em curso ou concluída.");
     }
 
-    if (!equipaParticipante.contains(habitante))
+    if (habitante == null || !equipaParticipante.contains(habitante))
     {
       throw new IllegalArgumentException("O habitante não participa nesta missão.");
     }
@@ -161,8 +179,8 @@ public class Missao
 
   public void concluirMissao()
   {
-    if (this.estado == EstadoMissao.Planeada)
-      throw new IllegalArgumentException("Esta missão ainda não foi iniciada.");
+    if (this.estado != EstadoMissao.EmCurso)
+      throw new IllegalStateException("Só é possível concluir uma missão em curso.");
 
     this.estado = EstadoMissao.Concluida;
   }
@@ -173,6 +191,9 @@ public class Missao
     {
       throw new IllegalArgumentException("Descoberta inválida.");
     }
+
+    if (descoberta.getMissaoAssociada() != this)
+      throw new IllegalArgumentException("A descoberta não pertence a esta missão.");
 
     if (estado != EstadoMissao.EmCurso)
     {

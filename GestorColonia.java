@@ -29,6 +29,9 @@ public class GestorColonia extends Utilizador
 
   private void verificarPermissao(Missao missao)
   {
+    if (missao == null)
+      throw new IllegalArgumentException("Missão inválida.");
+
     if (missao.getGestor() != this)
       throw new IllegalArgumentException("Não tem permissão para gerir esta missão.");
   }
@@ -57,6 +60,9 @@ public class GestorColonia extends Utilizador
   public void mudarColonia(Colonia novaColonia, Missao missao)
   {
     verificarPermissao(missao);
+    if (novaColonia == null)
+      throw new IllegalArgumentException("Colónia inválida.");
+
     missao.removerTodosParticipantes();
     missao.setColonia(novaColonia);
   }
@@ -97,10 +103,10 @@ public class GestorColonia extends Utilizador
     missao.adicionarDescoberta(descoberta);
   }
 
-  public void procurarHabitanteNaMissao(Habitante habitante, Missao missao)
+  public boolean procurarHabitanteNaMissao(Habitante habitante, Missao missao)
   {
     verificarPermissao(missao);
-    missao.procurarHabitanteNaMissao(habitante);
+    return missao.procurarHabitanteNaMissao(habitante);
   }
 
   @Override

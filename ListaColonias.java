@@ -12,6 +12,9 @@ public class ListaColonias
 
   public void adicionarColonia(Colonia colonia)
   {
+    if (colonia == null)
+      throw new IllegalArgumentException("Colónia inválida.");
+
     if (colonias.contains(colonia))
       throw new IllegalArgumentException("Esta colónia já está registada na lista.");
     
@@ -20,7 +23,7 @@ public class ListaColonias
   
   public void removerColonia(Colonia colonia)
   {
-    if (!colonias.contains(colonia))
+    if (colonia == null || !colonias.contains(colonia))
       throw new IllegalArgumentException("Esta colónia não está registada na lista");
       
     colonias.remove(colonia);
