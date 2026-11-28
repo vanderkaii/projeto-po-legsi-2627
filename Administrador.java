@@ -3,10 +3,12 @@ public class Administrador extends Utilizador
   private String id;
   private final ListaColonias listaColonias;
   private final ListaMissoes listaMissoes;
+  private final ListaHabitantes listaHabitantes;
+  private final ListaGestores listaGestores;
 
   private static int contadorId = 1;
 
-  public Administrador(String nomeCompleto, String emailInstitucional, String password, ListaColonias listaColonias, ListaMissoes listaMissoes)
+  public Administrador(String nomeCompleto, String emailInstitucional, String password, ListaColonias listaColonias, ListaMissoes listaMissoes, ListaHabitantes listaHabitantes, ListaGestores listaGestores)
   {
     super(nomeCompleto, emailInstitucional, password);
     if (listaColonias == null || listaMissoes == null)
@@ -15,6 +17,8 @@ public class Administrador extends Utilizador
     this.id = "A" + contadorId++;
     this.listaColonias = listaColonias;
     this.listaMissoes = listaMissoes;
+    this.listaHabitantes = listaHabitantes;
+    this.listaGestores = listaGestores;
   }
 
   public void verColonias()
@@ -64,12 +68,30 @@ public class Administrador extends Utilizador
     if (colonia == null)
       throw new IllegalArgumentException("Colónia inválida.");
 
-    colonia.removerHabitante(habitante);
+    colonia.removerHabitante(habitante, this.listaMissoes);
   }
 
-  public void verMissoes()
+  public void matarHabitante(Habitante habitante)
+  {
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
+
+    habitante.marcarComoMorto();
+  }
+
+  public void matarGestor(GestorColonia gestor)
+  {
+    if (gestor == null)
+      throw new IllegalArgumentException("Gestor inválido.");
+
+    if (listaMissoes.temMissaoPlaneadaOuEmCurso(gestor))
+      throw new IllegalStateException("Não é possível matar um gestor que gere uma missão planeada ou em curso.");
+
+    gestor.marcarComoMorto();
+  }
+
+    public void verMissoes()
   {
     listaMissoes.verMissoes();
   }
-
 }

@@ -13,12 +13,11 @@ public class Main
     gestorMarte.setNome("Ana Silva");
     gestorMarte.setEmail("ana.silva@exemplo.pt");
     gestorMarte.setPassword("novaSenha");
-    System.out.println("Dados atualizados: " + gestorMarte.getNome() + ", " + gestorMarte.getEmail()
-        + ", autenticacao=" + gestorMarte.autenticar("novaSenha"));
+    System.out.println("Dados atualizados: " + gestorMarte.getNome() + ", " + gestorMarte.getEmail() + ", autenticacao="
+        + gestorMarte.autenticar("novaSenha"));
 
     ListaColonias listaColonias = new ListaColonias();
-    Administrador administrador = new Administrador("Administrador", "admin@exemplo.pt", "senhaAdmin",
-        listaColonias, listaMissoes);
+    Administrador administrador = new Administrador();
     Colonia marte = administrador.criarColonia("Ares", "Marte");
     Colonia europa = administrador.criarColonia("Europa", "Jupiter");
     administrador.renomearColonia(marte, "Nova Ares");
@@ -48,8 +47,7 @@ public class Main
 
     Missao missaoA = new Missao("Exploracao de Marte", "Recolher amostras", gestorMarte, marte, listaMissoes);
     Missao missaoB = new Missao("Analise do solo", "Analisar o solo", gestorMarte, marte, listaMissoes);
-    Missao missaoC = new Missao("Exploracao de Europa", "Procurar sinais de vida", gestorEuropa, europa,
-        listaMissoes);
+    Missao missaoC = new Missao("Exploracao de Europa", "Procurar sinais de vida", gestorEuropa, europa, listaMissoes);
     gestorMarte.mudarDesignacao("Exploracao de Ares", missaoA);
     gestorMarte.mudarObjetivo("Recolher amostras de solo", missaoA);
     System.out.println("\nMissoes supervisionadas por " + gestorMarte.getNome() + ":");
@@ -58,20 +56,18 @@ public class Main
     gestorMarte.adicionarParticipante(explorador1, missaoA);
     gestorMarte.adicionarParticipante(cientista, missaoA);
     gestorMarte.adicionarParticipante(engenheiro, missaoA);
-    System.out.println("\nCientista participa na missao: "
-        + gestorMarte.procurarHabitanteNaMissao(cientista, missaoA));
+    System.out.println("\nCientista participa na missao: " + gestorMarte.procurarHabitanteEmMissao(cientista, missaoA));
     gestorMarte.removerParticipante(engenheiro, missaoA);
     gestorMarte.adicionarParticipante(engenheiro, missaoA);
-    System.out.println("Missao: " + missaoA.getId() + " - " + missaoA.getDesignacao()
-        + "; objetivo: " + missaoA.getObjetivo());
+    System.out.println(
+        "Missao: " + missaoA.getId() + " - " + missaoA.getDesignacao() + "; objetivo: " + missaoA.getObjetivo());
 
     gestorMarte.iniciarMissao(missaoA);
-    Descoberta descobertaA = new Descoberta(missaoA, cientista, "Mineral", LocalDate.now(),
-        "Mineral identificado");
-    System.out.println("\nDescoberta: " + descobertaA.getId() + ", " + descobertaA.getTipo()
-        + ", " + descobertaA.getData() + ", " + descobertaA.getDescricao());
-    System.out.println("Associada a " + descobertaA.getMissaoAssociada().getDesignacao()
-        + " e responsavel: " + descobertaA.getHabitanteResponsavel().getNome());
+    Descoberta descobertaA = new Descoberta(missaoA, cientista, "Mineral", LocalDate.now(), "Mineral identificado");
+    System.out.println("\nDescoberta: " + descobertaA.getId() + ", " + descobertaA.getTipo() + ", "
+        + descobertaA.getData() + ", " + descobertaA.getDescricao());
+    System.out.println("Associada a " + descobertaA.getMissaoAssociada().getDesignacao() + " e responsavel: "
+        + descobertaA.getHabitanteResponsavel().getNome());
     System.out.println(missaoA);
     gestorMarte.concluirMissao(missaoA);
     System.out.println("Estado depois de concluir: " + missaoA);
@@ -96,8 +92,7 @@ public class Main
     {
       administrador.removerHabitanteColonia(marte, explorador1);
       System.out.println("Habitante removido da colonia: " + !marte.procurarHabitante(explorador1));
-    }
-    catch (RuntimeException erro)
+    } catch (RuntimeException erro)
     {
       System.out.println("Erro ao remover habitante da colonia: " + erro.getMessage());
     }

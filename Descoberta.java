@@ -32,8 +32,7 @@ public class Descoberta
     this.habitanteResponsavel = habitanteResponsavel;
     setTipo(tipo);
     this.data = LocalDate.now();
-    setDescricao(descricao); // Aqui eu substitui pelo setter (em vez de ter this.descricao = descricao) porque se houver alguma verificaçao, podemos aproveitar a do setter (DRY = DON'T REPEAT YOURSELF)
-                              // É a mesma lógica para qualquer setter no constructor
+    setDescricao(descricao);
 
     missaoAssociada.adicionarDescoberta(this);
   }

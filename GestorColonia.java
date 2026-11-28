@@ -9,6 +9,7 @@ public class GestorColonia extends Utilizador
 {
   private String id;
   private final ListaMissoes listaMissoes;
+  private boolean vivo = true;
 
   private static int contadorId = 1;
 
@@ -27,8 +28,29 @@ public class GestorColonia extends Utilizador
     return id;
   }
 
+  public boolean estaVivo()
+  {
+    return this.vivo;
+  }
+
+  public void marcarComoMorto()
+  {
+    if (!this.vivo)
+      throw new IllegalStateException("Este gestor já está morto.");
+
+    this.vivo = false;
+  }
+
+  private void verificarSeEstaVivo()
+  {
+    if (!this.vivo)
+      throw new IllegalStateException("Um gestor morto não pode gerir missões.");
+  }
+
   private void verificarPermissao(Missao missao)
   {
+    verificarSeEstaVivo();
+
     if (missao == null)
       throw new IllegalArgumentException("Missão inválida.");
 
@@ -38,6 +60,8 @@ public class GestorColonia extends Utilizador
 
   public void verMissoesSupervisionadas()
   {
+    verificarSeEstaVivo();
+
     for (Missao missao : listaMissoes.getMissoes())
     {
       if (missao.getGestor() == this)
@@ -57,12 +81,13 @@ public class GestorColonia extends Utilizador
     missao.setDesignacao(novaDesignacao);
   }
 
-  public void mudarColonia(Colonia novaColonia, Missao missao)
+  public void mudarColoniaDaMissao(Colonia novaColonia, Missao missao)
   {
     verificarPermissao(missao);
+
     if (novaColonia == null)
       throw new IllegalArgumentException("Colónia inválida.");
-
+    
     missao.removerTodosParticipantes();
     missao.setColonia(novaColonia);
   }
@@ -97,13 +122,13 @@ public class GestorColonia extends Utilizador
     missao.concluirMissao();
   }
 
-  public void adicionarDescoberta(Descoberta descoberta, Missao missao)
+  public void registarDescoberta(Descoberta descoberta, Missao missao)
   {
     verificarPermissao(missao);
     missao.adicionarDescoberta(descoberta);
   }
 
-  public boolean procurarHabitanteNaMissao(Habitante habitante, Missao missao)
+  public boolean procurarHabitanteEmMissao(Habitante habitante, Missao missao)
   {
     verificarPermissao(missao);
     return missao.procurarHabitanteNaMissao(habitante);
@@ -112,7 +137,7 @@ public class GestorColonia extends Utilizador
   @Override
   public String toString()
   {
-    return "GestorColonia{id='" + this.id + "', nome='" + getNome()
-        + "', email='" + getEmail() + "'}";
+    return "GestorColonia{id='" + this.id + "', nome='" + getNome() + "', email='" + getEmail()
+        + "', vivo=" + this.vivo + "}";
   }
 }

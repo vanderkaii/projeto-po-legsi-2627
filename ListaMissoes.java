@@ -21,16 +21,52 @@ public class ListaMissoes
 
     if (missoes.contains(missao))
       throw new IllegalArgumentException("Esta missão já está registada na lista.");
-    
+
     missoes.add(missao);
   }
-  
+
   public void removerMissao(Missao missao)
   {
     if (missao == null || !missoes.contains(missao))
       throw new IllegalArgumentException("Esta missão não está registada na lista.");
-      
+
     missoes.remove(missao);
+  }
+
+  public boolean temMissaoPlaneadaOuEmCurso(Habitante habitante)
+  {
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
+
+    for (Missao missao : missoes)
+    {
+      if (missao.getEquipaParticipante().contains(habitante)
+          && (missao.getEstado() == Missao.EstadoMissao.Planeada
+              || missao.getEstado() == Missao.EstadoMissao.EmCurso))
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public boolean temMissaoPlaneadaOuEmCurso(GestorColonia gestor)
+  {
+    if (gestor == null)
+      throw new IllegalArgumentException("Gestor inválido.");
+
+    for (Missao missao : missoes)
+    {
+      if (missao.getGestor() == gestor
+          && (missao.getEstado() == Missao.EstadoMissao.Planeada
+              || missao.getEstado() == Missao.EstadoMissao.EmCurso))
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public void verMissoes()

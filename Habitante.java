@@ -3,6 +3,7 @@ public abstract class Habitante extends Utilizador
   private String id;
   private String profissao;
   private Colonia colonia;
+  private boolean vivo = true;
 
   private static int contadorId = 1; // Variável que serve de contador para o número do ID.
                                      // static significa que é uma variável partilhada
@@ -17,6 +18,19 @@ public abstract class Habitante extends Utilizador
   public String getId()
   {
     return this.id;
+  }
+
+  public boolean estaVivo()
+  {
+    return this.vivo;
+  }
+
+  public void marcarComoMorto()
+  {
+    if (!this.vivo)
+      throw new IllegalStateException("Este habitante já está morto.");
+
+    this.vivo = false;
   }
 
   public String getProfissao()
@@ -40,11 +54,6 @@ public abstract class Habitante extends Utilizador
 
   public void setColonia(Colonia colonia)
   {
-    if (colonia == null)
-    {
-      throw new IllegalArgumentException("Colónia inválida");
-    }
-
     this.colonia = colonia;
   }
 
@@ -52,11 +61,68 @@ public abstract class Habitante extends Utilizador
   public String toString()
   {
     // É um operador ternario. é uma forma mais compacta do if... else.
-    // Neste caso, se colonia for null, mostra "nenhuma". Se não, mostra colonia.getNome()
+    // Neste caso, se colonia for null, mostra "nenhuma". Se não, mostra
+    // colonia.getNome()
     String nomeColonia = this.colonia == null ? "nenhuma" : this.colonia.getNome();
 
-    return "Habitante{id='" + this.id + "', nome='" + getNome()
-        + "', email='" + getEmail() + "', profissao='" + this.profissao
-        + "', colonia='" + nomeColonia + "'}";
+    return "Habitante{id='" + this.id + "', nome='" + getNome() + "', email='" + getEmail() + "', profissao='"
+        + this.profissao + "', colonia='" + nomeColonia + "', vivo=" + this.vivo + "}";
+  }
+
+  public void verTodasMissoes(ListaMissoes missoes)
+  {
+    for (Missao missao : missoes.getMissoes())
+    {
+      if (missao.getEquipaParticipante().contains(this))
+      {
+        System.out.println(missao);
+      }
+    }
+  }
+
+  public void verMissoesPorEstado(ListaMissoes missoes, Missao.EstadoMissao estado)
+  {
+    for (Missao missao : missoes.getMissoes())
+    {
+      if (missao.getEquipaParticipante().contains(this) && missao.getEstado() == estado)
+      {
+        System.out.println(missao);
+      }
+    }
+  }
+
+  public void verDescobertas(ListaDescobertas descobertas)
+  {
+    for (Descoberta descoberta : descobertas.getDescobertas())
+    {
+      if (descoberta.getHabitanteResponsavel() == this)
+        System.out.println(descoberta);
+    }
+  }
+
+  /*
+   * ESTATISTICAS PESSOAIS: Descobertas realizadas, missoes concluidas
+   */
+  public void verEstatisticas(ListaDescobertas descobertas, ListaMissoes missoes)
+  {
+    int missoesConcluidas = 0;
+    int descobertasRealizadas = 0;
+
+    for (Missao missao : missoes.getMissoes())
+    {
+      if (missao.getEquipaParticipante().contains(this) && missao.getEstado() == Missao.EstadoMissao.Concluida)
+      {
+        missoesConcluidas++;
+      }
+    }
+
+    for (Descoberta descoberta : descobertas.getDescobertas())
+    {
+      if (descoberta.getHabitanteResponsavel() == this)
+        descobertasRealizadas++;
+    }
+
+    String.format("Missoes concluidas: %d", missoesConcluidas);
+    String.format("Descobertas realizadas: %d", descobertasRealizadas);
   }
 }

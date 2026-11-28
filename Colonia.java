@@ -83,12 +83,18 @@ public class Colonia
     habitante.setColonia(this);
   }
 
-  public void removerHabitante(Habitante habitante)
+  public void removerHabitante(Habitante habitante, ListaMissoes listaMissoes)
   {
     if (habitante == null || !this.habitantes.contains(habitante))
     {
       throw new IllegalArgumentException("O habitante não existe nesta colónia");
     }
+
+    if (listaMissoes == null)
+      throw new IllegalArgumentException("Lista de missões inválida.");
+
+    if (listaMissoes.temMissaoPlaneadaOuEmCurso(habitante))
+      throw new IllegalStateException("Não é possível remover um habitante que participa numa missão planeada ou em curso.");
 
     this.habitantes.remove(habitante);
     habitante.setColonia(null);

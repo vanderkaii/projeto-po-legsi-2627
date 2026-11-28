@@ -103,6 +103,9 @@ public class Missao
     if (gestor == null)
       throw new IllegalArgumentException("Gestor inválido.");
 
+    if (!gestor.estaVivo())
+      throw new IllegalArgumentException("Um gestor morto não pode ser associado a uma missão.");
+
     this.gestor = gestor;
   }
 
@@ -127,6 +130,9 @@ public class Missao
     // Verificações
     if (habitante == null)
       throw new IllegalArgumentException("Habitante inválido.");
+
+    if (!habitante.estaVivo())
+      throw new IllegalArgumentException("Um habitante morto não pode participar numa missão.");
 
     if (!this.colonia.procurarHabitante(habitante))
       throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
@@ -174,6 +180,12 @@ public class Missao
     if (this.estado == EstadoMissao.Concluida)
       throw new IllegalArgumentException("Esta missão já foi concluida.");
 
+    for (Habitante habitante : this.equipaParticipante)
+    {
+      if (!habitante.estaVivo())
+        throw new IllegalStateException("Remova os habitantes mortos da equipa antes de iniciar a missão.");
+    }
+
     this.estado = EstadoMissao.EmCurso;
   }
 
@@ -194,6 +206,13 @@ public class Missao
 
     if (descoberta.getMissaoAssociada() != this)
       throw new IllegalArgumentException("A descoberta não pertence a esta missão.");
+
+    Habitante responsavel = descoberta.getHabitanteResponsavel();
+    if (!responsavel.estaVivo())
+      throw new IllegalStateException("Um habitante morto não pode registar uma descoberta.");
+
+    if (!this.equipaParticipante.contains(responsavel))
+      throw new IllegalArgumentException("O habitante responsável não participa nesta missão.");
 
     if (estado != EstadoMissao.EmCurso)
     {
