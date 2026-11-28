@@ -9,7 +9,6 @@ public class GestorColonia extends Utilizador
 {
   private String id;
   private final ListaMissoes listaMissoes;
-  private boolean vivo = true;
 
   private static int contadorId = 1;
 
@@ -28,29 +27,8 @@ public class GestorColonia extends Utilizador
     return id;
   }
 
-  public boolean estaVivo()
-  {
-    return this.vivo;
-  }
-
-  public void marcarComoMorto()
-  {
-    if (!this.vivo)
-      throw new IllegalStateException("Este gestor já está morto.");
-
-    this.vivo = false;
-  }
-
-  private void verificarSeEstaVivo()
-  {
-    if (!this.vivo)
-      throw new IllegalStateException("Um gestor morto não pode gerir missões.");
-  }
-
   private void verificarPermissao(Missao missao)
   {
-    verificarSeEstaVivo();
-
     if (missao == null)
       throw new IllegalArgumentException("Missão inválida.");
 
@@ -60,8 +38,6 @@ public class GestorColonia extends Utilizador
 
   public void verMissoesSupervisionadas()
   {
-    verificarSeEstaVivo();
-
     for (Missao missao : listaMissoes.getMissoes())
     {
       if (missao.getGestor() == this)
@@ -137,7 +113,6 @@ public class GestorColonia extends Utilizador
   @Override
   public String toString()
   {
-    return "GestorColonia{id='" + this.id + "', nome='" + getNome() + "', email='" + getEmail()
-        + "', vivo=" + this.vivo + "}";
+    return "GestorColonia{id='" + this.id + "', nome='" + getNome() + "', email='" + getEmail() + "'}";
   }
 }

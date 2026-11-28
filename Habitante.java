@@ -3,7 +3,6 @@ public abstract class Habitante extends Utilizador
   private String id;
   private String profissao;
   private Colonia colonia;
-  private boolean vivo = true;
 
   private static int contadorId = 1; // Variável que serve de contador para o número do ID.
                                      // static significa que é uma variável partilhada
@@ -18,19 +17,6 @@ public abstract class Habitante extends Utilizador
   public String getId()
   {
     return this.id;
-  }
-
-  public boolean estaVivo()
-  {
-    return this.vivo;
-  }
-
-  public void marcarComoMorto()
-  {
-    if (!this.vivo)
-      throw new IllegalStateException("Este habitante já está morto.");
-
-    this.vivo = false;
   }
 
   public String getProfissao()
@@ -66,7 +52,7 @@ public abstract class Habitante extends Utilizador
     String nomeColonia = this.colonia == null ? "nenhuma" : this.colonia.getNome();
 
     return "Habitante{id='" + this.id + "', nome='" + getNome() + "', email='" + getEmail() + "', profissao='"
-        + this.profissao + "', colonia='" + nomeColonia + "', vivo=" + this.vivo + "}";
+        + this.profissao + "', colonia='" + nomeColonia + "'}";
   }
 
   public void verTodasMissoes(ListaMissoes missoes)

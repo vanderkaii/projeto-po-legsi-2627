@@ -52,6 +52,12 @@ public class Descoberta
     return habitanteResponsavel;
   }
 
+  public void removerHabitanteResponsavel(Habitante habitante)
+  {
+    if (this.habitanteResponsavel == habitante)
+      this.habitanteResponsavel = null;
+  }
+
   public String getTipo()
   {
     return tipo;

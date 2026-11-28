@@ -2,7 +2,12 @@ import java.util.ArrayList;
 
 public class ListaGestores
 {
-  private ArrayList<GestorColonia> gestores;
+  private final ArrayList<GestorColonia> gestores;
+
+  public ListaGestores()
+  {
+    this.gestores = new ArrayList<>();
+  }
 
   public ArrayList<GestorColonia> getGestores()
   {
@@ -20,7 +25,7 @@ public class ListaGestores
     gestores.add(gestor);
   }
 
-  public void removerGestores(GestorColonia gestor)
+  public void removerGestor(GestorColonia gestor)
   {
     if (gestor == null || !gestores.contains(gestor))
       throw new IllegalArgumentException("Este gestor não está registado na lista.");

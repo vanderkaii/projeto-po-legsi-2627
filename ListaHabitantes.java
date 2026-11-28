@@ -44,14 +44,4 @@ public class ListaHabitantes
       }
     }
 
-    public void verHabitantesMortos()
-    {
-      for (Habitante habitante : habitantes)
-      {
-        if (!habitante.estaVivo())
-          System.out.println(habitante);
-      }
-    }
-
-
 }

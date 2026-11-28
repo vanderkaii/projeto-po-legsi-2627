@@ -103,9 +103,6 @@ public class Missao
     if (gestor == null)
       throw new IllegalArgumentException("Gestor inválido.");
 
-    if (!gestor.estaVivo())
-      throw new IllegalArgumentException("Um gestor morto não pode ser associado a uma missão.");
-
     this.gestor = gestor;
   }
 
@@ -121,7 +118,7 @@ public class Missao
 
     for (Habitante habitante : equipaParticipante)
     {
-      System.out.println(habitante);
+      System.out.println(habitante == null ? "Habitante removido." : habitante);
     }
   }
 
@@ -130,9 +127,6 @@ public class Missao
     // Verificações
     if (habitante == null)
       throw new IllegalArgumentException("Habitante inválido.");
-
-    if (!habitante.estaVivo())
-      throw new IllegalArgumentException("Um habitante morto não pode participar numa missão.");
 
     if (!this.colonia.procurarHabitante(habitante))
       throw new IllegalArgumentException("O habitante não pertence a esta colonia.");
@@ -180,12 +174,6 @@ public class Missao
     if (this.estado == EstadoMissao.Concluida)
       throw new IllegalArgumentException("Esta missão já foi concluida.");
 
-    for (Habitante habitante : this.equipaParticipante)
-    {
-      if (!habitante.estaVivo())
-        throw new IllegalStateException("Remova os habitantes mortos da equipa antes de iniciar a missão.");
-    }
-
     this.estado = EstadoMissao.EmCurso;
   }
 
@@ -208,8 +196,8 @@ public class Missao
       throw new IllegalArgumentException("A descoberta não pertence a esta missão.");
 
     Habitante responsavel = descoberta.getHabitanteResponsavel();
-    if (!responsavel.estaVivo())
-      throw new IllegalStateException("Um habitante morto não pode registar uma descoberta.");
+    if (responsavel == null)
+      throw new IllegalArgumentException("A descoberta não tem um habitante responsável.");
 
     if (!this.equipaParticipante.contains(responsavel))
       throw new IllegalArgumentException("O habitante responsável não participa nesta missão.");
@@ -227,10 +215,38 @@ public class Missao
 
   public boolean procurarHabitanteNaMissao(Habitante habitante)
   {
-    if (this.equipaParticipante.contains(habitante))
-      return true;
+    return habitante != null && this.equipaParticipante.contains(habitante);
+  }
 
-    return false;
+  void removerReferenciasHabitante(Habitante habitante)
+  {
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
+
+    if (this.estado != EstadoMissao.Concluida)
+      throw new IllegalStateException("Só é possível remover referências de missões concluídas.");
+
+    for (int i = 0; i < this.equipaParticipante.size(); i++)
+    {
+      if (this.equipaParticipante.get(i) == habitante)
+        this.equipaParticipante.set(i, null);
+    }
+
+    for (Descoberta descoberta : this.descoberta)
+    {
+      descoberta.removerHabitanteResponsavel(habitante);
+    }
+  }
+
+  void removerReferenciaGestor(GestorColonia gestor)
+  {
+    if (gestor == null || this.gestor != gestor)
+      throw new IllegalArgumentException("O gestor não está associado a esta missão.");
+
+    if (this.estado != EstadoMissao.Concluida)
+      throw new IllegalStateException("Só é possível remover o gestor de missões concluídas.");
+
+    this.gestor = null;
   }
 
   @Override

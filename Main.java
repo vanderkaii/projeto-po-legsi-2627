@@ -5,6 +5,9 @@ public class Main
   public static void main(String[] args)
   {
     ListaMissoes listaMissoes = new ListaMissoes();
+    ListaColonias listaColonias = new ListaColonias();
+    ListaHabitantes listaHabitantes = new ListaHabitantes();
+    ListaGestores listaGestores = new ListaGestores();
     GestorColonia gestorMarte = new GestorColonia("Ana Gestora", "ana@exemplo.pt", "senha1", listaMissoes);
     GestorColonia gestorEuropa = new GestorColonia("Bruno Gestor", "bruno@exemplo.pt", "senha2", listaMissoes);
     System.out.println("Gestores: " + gestorMarte.getNome() + " (" + gestorMarte.getId() + "), "
@@ -16,8 +19,10 @@ public class Main
     System.out.println("Dados atualizados: " + gestorMarte.getNome() + ", " + gestorMarte.getEmail() + ", autenticacao="
         + gestorMarte.autenticar("novaSenha"));
 
-    ListaColonias listaColonias = new ListaColonias();
-    Administrador administrador = new Administrador();
+    Administrador administrador = new Administrador("Administrador", "admin@exemplo.pt", "senhaAdmin",
+        listaColonias, listaMissoes, listaHabitantes, listaGestores);
+    administrador.adicionarGestor(gestorMarte);
+    administrador.adicionarGestor(gestorEuropa);
     Colonia marte = administrador.criarColonia("Ares", "Marte");
     Colonia europa = administrador.criarColonia("Europa", "Jupiter");
     administrador.renomearColonia(marte, "Nova Ares");
@@ -66,8 +71,9 @@ public class Main
     Descoberta descobertaA = new Descoberta(missaoA, cientista, "Mineral", LocalDate.now(), "Mineral identificado");
     System.out.println("\nDescoberta: " + descobertaA.getId() + ", " + descobertaA.getTipo() + ", "
         + descobertaA.getData() + ", " + descobertaA.getDescricao());
+    Habitante responsavelDescoberta = descobertaA.getHabitanteResponsavel();
     System.out.println("Associada a " + descobertaA.getMissaoAssociada().getDesignacao() + " e responsavel: "
-        + descobertaA.getHabitanteResponsavel().getNome());
+        + (responsavelDescoberta == null ? "removido" : responsavelDescoberta.getNome()));
     System.out.println(missaoA);
     gestorMarte.concluirMissao(missaoA);
     System.out.println("Estado depois de concluir: " + missaoA);

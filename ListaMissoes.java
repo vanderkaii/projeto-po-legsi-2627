@@ -69,6 +69,36 @@ public class ListaMissoes
     return false;
   }
 
+  public void removerReferenciasHabitante(Habitante habitante)
+  {
+    if (habitante == null)
+      throw new IllegalArgumentException("Habitante inválido.");
+
+    if (temMissaoPlaneadaOuEmCurso(habitante))
+      throw new IllegalStateException("O habitante participa numa missão planeada ou em curso.");
+
+    for (Missao missao : missoes)
+    {
+      if (missao.getEstado() == Missao.EstadoMissao.Concluida)
+        missao.removerReferenciasHabitante(habitante);
+    }
+  }
+
+  public void removerReferenciasGestor(GestorColonia gestor)
+  {
+    if (gestor == null)
+      throw new IllegalArgumentException("Gestor inválido.");
+
+    if (temMissaoPlaneadaOuEmCurso(gestor))
+      throw new IllegalStateException("O gestor está associado a uma missão planeada ou em curso.");
+
+    for (Missao missao : missoes)
+    {
+      if (missao.getGestor() == gestor)
+        missao.removerReferenciaGestor(gestor);
+    }
+  }
+
   public void verMissoes()
   {
     for (Missao missao : missoes)
